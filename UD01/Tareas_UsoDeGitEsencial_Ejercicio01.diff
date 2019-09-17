@@ -1,0 +1,9 @@
+diff --git a/tmp/otro.txt b/tmp/otro.txt
+index 329fce6..d09b905 100644
+--- a/tmp/otro.txt
++++ b/tmp/otro.txt
+@@ -1 +1,3 @@
+ Esto en otro archivo
++
++dasd
+\ No newline at end of file
