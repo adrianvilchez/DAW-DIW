@@ -1,0 +1,58 @@
+header {
+    background-color: #c2c2c2;
+
+    display: inline-block;
+    margin: 0 auto;
+}
+
+h1 {
+    text-align: center;
+    font-family: "Open Sans";
+    font-size: 165%;
+    margin-bottom: 30px; 
+}
+
+nav li {
+    float: left;
+    list-style: none;
+    margin-right: 40px;
+    display: inline-block;
+    width: 150px;
+    height: 150px;
+    padding-bottom: 100px;
+}
+
+a {
+    display: inline-block;
+    text-decoration: none;
+    color: black;
+    text-align: justify;
+}
+
+a[rel='alternate']::after {
+    content: " Brexit";
+}
+
+a[rel='next']::before {
+    content: url("iconos/anyadir.svg");
+}
+
+a[rel='tag']::before {
+    content: url("iconos/carrito.svg");
+}
+
+a[rel='bookmark']::before {
+    content: url("iconos/favoritos.svg");
+}
+
+a[rel='help']::before {
+    content: url("iconos/pdf.svg");
+}
+
+a[rel='search']::before {
+    content: url("iconos/buscar.svg");
+}
+
+a[rel='nofollow']::before {
+    content: url("iconos/escudo.svg");
+}
