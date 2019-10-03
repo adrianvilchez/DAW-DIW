@@ -7,224 +7,65 @@
     <title>Deportes Vilchez</title>
 
     <!-- Stilo dentro del HTML, esta guarrada será corregida en breves -->
-    <style type="text/css">
-
-        @media (width: 1080px) {
-
-
-        }
-
-        #contenedor_principal {
-            position: relative;
-        }
-
-        /*#menu_login {
-            background:#C6D41F;
-            height: 50px;
-            border-radius: 5px;
-        }
-
-        nav {
-            height: 32px;
-
-            background: #C6D41F;
-            border-radius: 5px;
-            margin-top: -10px;
-            margin-bottom: -15px;
-        }
-
-        nav li {
-            list-style: none;
-            display: inline;
-            text-align: center;
-        }
-
-        nav li:hover {
-            padding-bottom: 15px;
-            background: #FFF;
-        }
-
-        nav li a {
-            padding-left: 25px;
-            padding-right: 25px;
-            padding-top: 5px;
-            padding-bottom: 15px;
-            color: #000000;
-        }
-
-        nav li a:hover {
-            color: #000;
-        }
-
-        a {
-            text-decoration:none;
-        }
-
-        #RRSS {
-            float: left;
-        }
-
-        #RRSS a img {
-            height: 40px;
-            width: 40px;
-            margin-top: 5px;
-        }
-
-        #login {
-            margin: 0 auto;
-            margin-left: 90%;
-
-        }
-
-        #login a {
-            color: yellow;
-            text-decoration-color: yellow;
-        }
-
-        #carrito {
-            float: right;
-        }
-
-        #carrito a img {
-            height: 40px;
-            width: 40px;
-            margin-top: -15px;
-        }*/
-
-        header {
-            margin-top: 5px;
-            background: #009FA0;
-
-            height: 200px;
-
-            border-radius: 5px;
-        }
-
-        header #titulo {
-            float: left;
-        }
-
-        header #buscar {
-            float: right;
-            margin-top: 75px;
-            margin-right: 5px;
-        }
-        
-        nav {
-            height: 400px;
-
-            background: #C6D41F;
-            border-radius: 5px;
-            margin-top: -12px;
-            margin-bottom: 5px;
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-        
-        nav ul a {
-            display: block;
-            width: 1080px;
-            text-decoration: none;
-
-            text-align: center;
-            background: #EF8E76;
-        }
-
-        /*article {
-            border-radius: 5px;
-            border-color: #000;
-            margin-top: 5px;
-            margin-bottom: 5px;
-
-            box-shadow: 2px 2px 10px #666;
-            box-shadow: 3px -3px 0 2px #444;
-            box-shadow: 2px 2px 5px #222 inset;
-        }
-
-        article .presentacion {
-            margin-bottom: 10px;
-        }
-
-        article img {
-            margin-left: 10px;
-            margin-bottom: 5px;
-        }
-        
-        p, h1 {
-            margin-left: 10px;
-        }*/
-
-        footer {
-            background: #009FA0;
-            height: 150px;
-            border-radius: 5px;
-        }
-
+    <style>
+        @import url(index.css);
     </style>
+
 </head>
 
 <body>
+
+    <!-- Menu RSS, logo, login y carrito -->
+    <!-- <div id="menu_login">
+        <div id="RRSS"><a href="">
+            <a href="https://www.instagram.com" target="_blank" ><img src="imagenes/instagram.png" alt="instagram"></a>
+            <a href="https://www.facebook.com" target="_blank"><img src="imagenes/facebook.png" alt="facebook"></a>
+        </a></div>
+        <div id="login">
+            <a href="">Entrar</a>
+            <a href="">Registrarse</a>
+        </div>
+        <div id="carrito"><a href="#"><img src="imagenes/carrito.png" alt=""></a></div>
+    </div> -->
     
-    <div id="contenedor_principal">
+    <!-- Encabezado, Nombre web y buscador -->
+    <header>
+        <div id="titulo">
+            <h1>DeportesVílchez</h1>
+        </div>
+        <div id="buscar">
+            <input type="search" name="búsqueda"><input type="submit" value="Buscar"></input>
+        </div>
+    </header>
 
-        <!-- Menu RSS, logo, login y carrito -->
-        <!-- <div id="menu_login">
-            <div id="RRSS"><a href="">
-                <a href="https://www.instagram.com" target="_blank" ><img src="imagenes/instagram.png" alt="instagram"></a>
-                <a href="https://www.facebook.com" target="_blank"><img src="imagenes/facebook.png" alt="facebook"></a>
-            </a></div>
-            <div id="login">
-                <a href="">Entrar</a>
-                <a href="">Registrarse</a>
-            </div>
-            <div id="carrito"><a href="#"><img src="imagenes/carrito.png" alt=""></a></div>
-        </div> -->
-        
-        <!-- Encabezado, Nombre web y buscador -->
-        <header>
-            <div id="titulo">
-                <h1>DeportesVílchez</h1>
-            </div>
-            <div id="buscar">
-                <input type="search" name="búsqueda"><input type="submit" value="Buscar"></input>
-            </div>
-        </header>
-    
-        <!-- Menu de navegación principal -->
-        <nav>
-                <ul>
-                    <li><a href="">Calzado</a></li>
-                    <li><a href="">Bolsas</a></li>
-                    <li><a href="">Balones</a></li>
-                    <li><a href="">Accesorios</a></li>
-                    <li><a href="">Ropa</a></li>
+    <!-- Menu de navegación principal -->
+    <nav>
+            <ul class="bla">
+                <li><a href="">Calzado</a></li>
+                <li><a href="">Accesorios</a></li>
+                <li><a href="">Ropa</a></li>
 
-                    <li><a href="">Noticias</a></li>
-                    <li><a href="">Contacto</a></li>
-                    <li><a href="">Cuestionario de satisfacción</a></li>
-                </ul>
-            </nav>
+                <li><a href="">Noticias</a></li>
+                <li><a href="">Contacto</a></li>
+                <li><a href="">C.Satisfacción</a></li>
+            </ul>
+        </nav>
 
-        <!-- <article class="presentacion">
-            <h1>Presentación</h1>
+        <div></div>
+        <article class="presentacion">
+        <h1>Presentación</h1>
 
-            <p>Lorem ipsum dolor sit amet consectetur adipiscing elit, praesent risus et litrices scelerisque varius semper fermentum, magnis tellus venenatis netus erat nlilam. Justo aliquam porttitor habitasse consequat magnis aptent, malesuada risus natoque dictum vel scelerisque, netus placerat litrices tincidunt cubilia. Condimentum vehiclia nascetur porta pharetra ornare mollis arcu, enim vliputate fermentum senectus vivamus.</p>
-            <img src="https://picsum.photos/200" alt="">
-        </article>
+        <p>Lorem ipsum dolor sit amet consectetur adipiscing elit, praesent risus et litrices scelerisque varius semper fermentum, magnis tellus venenatis netus erat nlilam. Justo aliquam porttitor habitasse consequat magnis aptent, malesuada risus natoque dictum vel scelerisque, netus placerat litrices tincidunt cubilia. Condimentum vehiclia nascetur porta pharetra ornare mollis arcu, enim vliputate fermentum senectus vivamus.</p>
+        <img src="https://picsum.photos/200" alt="">
+    </article>
+    <!--
+    <article class="Novedades">
+        <h1>Información</h1>
+        <p>Lorem ipsum dolor sit amet consectetur adipiscing elit, praesent risus et litrices scelerisque varius semper fermentum, magnis tellus venenatis netus erat nlilam. Justo aliquam porttitor habitasse consequat magnis aptent, malesuada risus natoque dictum vel scelerisque, netus placerat litrices tincidunt cubilia. Condimentum vehiclia nascetur porta pharetra ornare mollis arcu, enim vliputate fermentum senectus vivamus.</p>
+        <img src="https://picsum.photos/200" alt="">
+    </article> -->
 
-        <article class="Novedades">
-            <h1>Información</h1>
-            <p>Lorem ipsum dolor sit amet consectetur adipiscing elit, praesent risus et litrices scelerisque varius semper fermentum, magnis tellus venenatis netus erat nlilam. Justo aliquam porttitor habitasse consequat magnis aptent, malesuada risus natoque dictum vel scelerisque, netus placerat litrices tincidunt cubilia. Condimentum vehiclia nascetur porta pharetra ornare mollis arcu, enim vliputate fermentum senectus vivamus.</p>
-            <img src="https://picsum.photos/200" alt="">
-        </article> -->
-
-        <footer>Bla bla</footer>
-    </div>
+    <footer>Bla bla</footer>
     
 </body>
 </html>
