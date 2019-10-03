@@ -1,0 +1,63 @@
+:root {
+    --input-bg-color: #f9e4b7;
+}
+
+* {
+    font-weight: bold;
+    font-family: 'Grenze';
+    text-align: left
+}
+
+div {
+    margin-bottom: 10px;
+}
+label {
+    margin-right: 10px;
+}
+
+select[name = 'profesion'] {
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    width: 80px;
+    background-color: #f3f3f3;
+}
+
+input[name = 'submit'] {
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    text-transform: uppercase;
+}
+
+input[name = 'nombre']:invalid, input[id = 'puntosCordura']:invalid {
+    background-color: red;
+}
+  
+input[name ='nombre']:valid {
+    background-color: var(--input-bg-color);
+}
+
+input[name ='nombre'], input[id ='puntosCordura'], input[name ='submit'] {
+    background-color: var(--input-bg-color);
+}
+
+input[type = 'checkbox']:checked::after {
+    background-image: url('./cthulhu.svg');
+    background-size: 50px 150px;
+    display: inline-block;
+    content: "";
+    margin-top: -40px;
+    margin-left: 20px;
+    height: 150px;
+    width: 50px;
+}
+
+input[name = 'nombre']:target {
+    background-color: aquamarine;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
