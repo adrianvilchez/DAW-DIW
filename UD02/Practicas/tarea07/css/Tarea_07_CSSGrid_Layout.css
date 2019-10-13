@@ -1,12 +1,16 @@
+/* Definimos las variables para los colores */
 :root {
     --verde: 17, 97, 51, 1;
     --verde-fosforito: green;
 }
 
+/* A la sección le aplicamos un display grid,
+    de dos columnas y lo organizamos por áreas */
 section {
     display: grid;
 
-    grid-gap: 50px;
+    /* grid-gap: 10px; */
+    grid-column-gap: 50px;
 
     grid-template-columns: 1fr 3fr;
 
@@ -15,14 +19,9 @@ section {
                         "foot foot";
 }
 
+/* Asigamos las áreas */
 header {
     grid-area: head;
-}
-
-h1 {
-    margin-bottom: 10%;
-    text-align: center;
-    font-size: x-large;
 }
 
 nav {
@@ -37,34 +36,53 @@ footer {
     grid-area: foot;
 }
 
-/* a:active {
-    -webkit-box-shadow: 3px 2px 2px 5px rgba(var(--verde-fosforito));
-    -moz-box-shadow: 3px 2px 2px 5px rgba(var(--verde-fosforito));
-    box-shadow: 3px 2px 2px 5px rgba(var(--verde-fosforito));
-} */
+h1 {
+    margin-bottom: 10%;
+    text-align: center;
+    font-size: x-large;
+}
 
+/* Asignamos a main un segundo grid, de 3 columnas, cada una de una fracción */
 main {
     display: grid;
 
     grid-template-columns: repeat(3, 1fr);
-    
-    
 }
 
-.gallery__img {
-    justify-self: right;
-}
-
-a {
-    font-size: x-large;
-}
-
+/* Aplicamos un padding a todo el enlace para hacerlo crecer
+    y le aplicamos un sombreado */
 section nav ul li {
     list-style: none;
 
-    padding: 20px;
+    padding: 15%;
 
     -webkit-box-shadow: 3px 2px 2px 5px rgba(var(--verde));
     -moz-box-shadow: 3px 2px 2px 5px rgba(var(--verde));
     box-shadow: 3px 2px 2px 5px rgba(var(--verde));
+}
+
+a {
+    font-size: 200%;
+}
+
+/* Dotamos de un 100% de tamaño a cada imagen dentro de cada div y la
+    separamos de la parte derecha para que quede alineado */
+.gallery__img img {
+    width: 100%;
+    margin-right: -42%;
+    margin-bottom: 8%;
+
+    border: solid white 2px;
+}
+
+/* Aplicamos un borde verde NUCELAR a las imágenes cuando se haga target */
+.gallery__img img:target {
+    -webkit-box-shadow: 5px 5px var(--verde-fosforitos);
+    -moz-box-shadow: 5px 5px var(--verde-fosforito);
+    box-shadow: 5px 5px var(--verde-fosforito);
+}
+
+footer {
+    text-align: center;
+    font-size: medium;
 }
