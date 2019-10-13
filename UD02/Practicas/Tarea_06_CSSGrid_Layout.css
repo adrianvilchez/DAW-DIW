@@ -1,0 +1,39 @@
+h1 {
+    text-align: center;
+    margin: 15px;
+}
+
+.container {
+    display: grid;
+
+    grid-gap: 10px;
+
+    grid-template-columns: repeat(2, 1fr 2fr);
+    grid-template-rows: repeat(6, 1fr);
+}
+
+.item:nth-child(odd):hover, .item:nth-child(odd):hover + .item:nth-child(even) {
+    box-shadow: 10px 10px 10px -3px #000000;
+}
+
+.item:nth-child(odd) {
+    background-color: grey;
+}
+
+.item2 {
+    grid-column-end: span 3;
+}
+
+#SealOfApproval {
+    position: fixed;
+
+    width: 100px;
+    height: 100px;
+    background-image: url('./cthulhu_approval.gif');
+    background-repeat: no-repeat;
+    right: 0;
+    bottom: 0;
+
+    margin-bottom: 5px;
+    margin-right: 3px;
+}
