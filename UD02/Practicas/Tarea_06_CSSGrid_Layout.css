@@ -8,6 +8,8 @@ h1 {
     margin: 15px;
 }
 
+/* Hacemos 2 colunas de una y dos fracciones y 6 filas de una fración, a las cuales las dotamos de un espacio de 20 píxeles
+    para que la sombra del hover no llegue a tocar al item de abajo */
 .container {
     display: grid;
 
@@ -17,6 +19,7 @@ h1 {
     grid-template-rows: repeat(6, 1fr);
 }
 
+/* sombra en los item impares al hacer hover y en los pares de cada uno de su siguiente item */
 .item:nth-child(odd):hover, .item:nth-child(odd):hover + .item:nth-child(even) {
     -webkit-box-shadow: 10px 10px 0px 0px rgba(0,0,0,1);
     -moz-box-shadow: 10px 10px 0px 0px rgba(0,0,0,1);
@@ -31,10 +34,13 @@ h1 {
     background-color: var(--bg-color-yellow );
 }
 
+/* el item2 ocupará 3 espacios */
 .item2 {
     grid-column-end: span 3;
 }
 
+/* fijamos la posición y le dotamos de un tamaño en píxeles, establecemos la imagen de fondo
+    y evitamos que se repita, la mandamos a fondo a la derecha y le damos un pequeño margin debajo y a su derecha */
 #SealOfApproval {
     position: fixed;
 
