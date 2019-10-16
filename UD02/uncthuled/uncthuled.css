@@ -1,21 +1,51 @@
+:root {
+    --tamanyo-cuadricula: 45.4px;
+
+    --bg-color-verde-asqueroso: greenyellow;
+}
+
 * {
     margin: 0;
     padding: 0;
+}
+
+div {
+    /* border: 1px solid white; */
+    text-align: center;
+
 }
 
 #contenedor {
 
     display: grid;
 
-    
-
-    grid-template-columns: repeat(21, 50px);
-    grid-template-rows: repeat(13, 50px);
+    grid-template-columns: repeat(23, auto);
+    grid-template-rows: repeat(16, var(--tamanyo-cuadricula));
 }
 
 .cuadricula {
-    width: 50px;
-    height: 50px;
+    color: white;
+    background-color: black;
+}
+
+.pasillo {
+    background-color: black;
+}
+
+.fondo {
+    background-color: var(--bg-color-verde-asqueroso);
+}
+
+.casillaSalida{
 
     background-color: black;
+    background-image: url("imagenes/et.png");
+    background-size: 35%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* 64 empiea primera columna */
+.columnas {
+    background-color: orangered;
 }
