@@ -1,7 +1,11 @@
 :root {
-    --tamanyo-cuadricula: 59px;
+    --tamanyo-cuadricula: 45px;
 
     /* --bg-color-verde-asqueroso: greenyellow; */
+}
+
+body {
+    background-image: url("imagenes/suelo.jpg");
 }
 
 * {
@@ -23,22 +27,54 @@
 } */
 
 .pasillo {
-    background-color: black;
-}
-
-.fondo {
-    background-color: red;
-}
-
-.personaje{
-
-    background-color: black;
-    background-image: url("imagenes/et.png");
-    background-size: 35%;
+    /* background-color: green; */
+    /* background-image: url("imagenes/suelo.jpg"); */
+    background-size: 100%;
     background-repeat: no-repeat;
     background-position: center;
 }
 
+.fondo {
+    background-color: green;
+    background-image: url("imagenes/arbol.png");
+    background-size: 50%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.personaje{
+    background-image: url("imagenes/et.png");
+    background-size: 35%;
+    background-repeat: no-repeat;
+    background-position: center;
+    
+}
+.pisadas {
+
+
+    transition-duration: 2s;
+
+    scale: (1.5);
+
+    
+    
+    background-image: url("imagenes/pisadas.png");
+    background-size: 50%;
+
+    background-position: center;
+}
+
+.momia{
+    background-image: url("imagenes/predator.png");
+    background-size: 80%;
+    background-repeat: no-repeat;
+    background-position: center;
+    
+}
+
 .columnas {
-    background-color: red;
+    background-image: url("imagenes/columna.jpg");
+    background-size: 100%;
+    /* background-repeat: no-repeat; */
+    background-position: center;
 }

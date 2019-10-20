@@ -5,6 +5,13 @@ var mapa;
 var xet = 1;
 var yet = 8;
 
+var xpredator = 14;
+var ypredator = 20;
+
+var vidas = 5;
+
+var personajeEnTablero = true;
+
 window.onload = function() {
     var divCuadricula;
 
@@ -15,6 +22,12 @@ window.onload = function() {
     }
 
     cuadricula(23, 16);
+
+    moverMomia();
+
+
+
+
 };
 
 document.addEventListener('keydown', function(event) {
@@ -25,38 +38,130 @@ document.addEventListener('keydown', function(event) {
 
         case "w":
         case "ArrowUp":
-            if(mapa[xet-1][yet].className.indexOf("pasillo") >= 0) {
+            if (mapa[xet-1][yet].className.indexOf("pasillo") >= 0) {
                 mapa[xet][yet].classList.remove("personaje");
+                mapa[xet-1][yet].classList.remove("pisadas");
                 xet--;
+                mapa[xet+1][yet].classList.add("pisadas");
                 mapa[xet][yet].classList.add("personaje");
+                moverMomia();
             }
             break;
         case "a":
         case "ArrowLeft":
-            if(mapa[xet][yet-1].className.indexOf("pasillo") >= 0) {
+            if (mapa[xet][yet-1].className.indexOf("pasillo") >= 0) {
                 mapa[xet][yet].classList.remove("personaje");
+                mapa[xet][yet-1].classList.remove("pisadas");
                 yet--;
+                mapa[xet][yet+1].classList.add("pisadas");
                 mapa[xet][yet].classList.add("personaje");
-        }
+                moverMomia();
+            }
             break;
         case "s":
         case "ArrowDown":
-            if(mapa[xet+1][yet].className.indexOf("pasillo") >= 0) {
-                mapa[xet][yet].classList.remove("personaje");
+            if (mapa[xet+1][yet].className.indexOf("pasillo") >= 0) {
+                mapa[xet][yet-1].classList.remove("personaje");
+                mapa[xet+1][yet].classList.remove("pisadas");
                 xet++;
+                mapa[xet-1][yet].classList.add("pisadas");
                 mapa[xet][yet].classList.add("personaje");
+                moverMomia();
             }
             break;
         case "d":
         case "ArrowRight":
-            if(mapa[xet][yet+1].className.indexOf("pasillo") >= 0) {
+            if (mapa[xet][yet+1].className.indexOf("pasillo") >= 0) {
                 mapa[xet][yet].classList.remove("personaje");
+                mapa[xet][yet+1].classList.remove("pisadas");
                 yet++;
+                mapa[xet][yet-1].classList.add("pisadas");
                 mapa[xet][yet].classList.add("personaje");
+                moverMomia();
             }
             break;
     }
 });
+
+function moverMomia() {
+
+    //do {
+        
+        //do {
+            mapa[xpredator][ypredator].classList.add("pasillo");
+            if (mapa[xpredator-1][ypredator].className.indexOf("pasillo") >= 0
+                || mapa[xpredator][ypredator-1].className.indexOf("pasillo") >= 0
+                || mapa[xpredator+1][ypredator].className.indexOf("pasillo") >= 0
+                || mapa[xpredator][ypredator+1].className.indexOf("pasillo") >= 0) {
+
+                if (xpredator < xet) {
+                    mapa[xpredator][ypredator].classList.remove("momia");
+                    mapa[xpredator][ypredator].classList.add("pasillo");
+                    xpredator++;
+                    mapa[xpredator][ypredator].classList.add("momia");
+                } else if (xpredator > xet) {
+                    mapa[xpredator][ypredator].classList.remove("momia");
+                    mapa[xpredator][ypredator].classList.add("pasillo");
+                    xpredator--;
+                    mapa[xpredator][ypredator].classList.add("momia");
+                }
+            
+                if (ypredator < yet) {
+                    mapa[xpredator][ypredator].classList.remove("momia");
+                    mapa[xpredator][ypredator].classList.add("pasillo");
+                    ypredator++;
+                    mapa[xpredator][ypredator].classList.add("momia");
+                } else if (ypredator > yet) {
+                    mapa[xpredator][ypredator].classList.remove("momia");
+                    mapa[xpredator][ypredator].classList.add("pasillo");
+                    ypredator--;
+                    mapa[xpredator][ypredator].classList.add("momia");
+                }
+
+                if (mapa[xet][yet] == mapa[xpredator][ypredator]) {
+                            
+                    //volverAlJuego();
+                    personajeEnTablero = false;
+                    finalizarJuego();
+                }
+            }
+
+        //} while (personajeEnTablero);
+
+    //} while (mapa[xet][yet] != mapa[xpredator][ypredator]);
+
+
+}
+
+function volverAlJuego() {
+    
+    vidas--;
+
+    // Mandamos al personaje a la casilla de salida
+    mapa[xet][yet].classList.remove("personaje");
+
+    xet = 1;
+    yet = 8;
+
+    mapa[xet][yet].classList.add("personaje");
+
+
+
+    // Si las vidas se terminan, logicamente el juego termina
+    if (vidas == 0) {
+        finalizarJuego();
+    }
+
+    // Indicamos a la momia que el personaje se encuentra en el tablero
+    personajeEnTablero = true;
+
+    // Invicamos a la función para que la movia vuelva a moverse
+    moverMomia();
+}
+
+function finalizarJuego() {
+    alert("Serás gili******...");
+}
 
 function cuadricula(ancho, alto) {
     
@@ -103,6 +208,11 @@ function cuadricula(ancho, alto) {
                 divCuadricula.classList.add("pasillo");
                 divCuadricula.classList.remove("fondo");
                 
+            }
+
+            // Casilla de salida momia
+            if (i == 14 && j == 21) {
+                divCuadricula.classList.add("momia");
             }
 /*
             if (divCuadricula.className.indexOf("fondo") == - 1) {
