@@ -10,6 +10,8 @@ var ypredator = 20;
 
 var vidas = 5;
 
+velocidadMomia = 500;
+
 var personajeEnTablero = true;
 
 window.onload = function() {
@@ -23,10 +25,10 @@ window.onload = function() {
 
     cuadricula(23, 16);
 
-    moverMomia();
-
-
-
+    setInterval(() => {
+        // Comentamos para que no de por culo
+        //moverMomia();
+    }, velocidadMomia);
 
 };
 
@@ -44,7 +46,6 @@ document.addEventListener('keydown', function(event) {
                 xet--;
                 mapa[xet+1][yet].classList.add("pisadas");
                 mapa[xet][yet].classList.add("personaje");
-                moverMomia();
             }
             break;
         case "a":
@@ -55,7 +56,6 @@ document.addEventListener('keydown', function(event) {
                 yet--;
                 mapa[xet][yet+1].classList.add("pisadas");
                 mapa[xet][yet].classList.add("personaje");
-                moverMomia();
             }
             break;
         case "s":
@@ -66,7 +66,6 @@ document.addEventListener('keydown', function(event) {
                 xet++;
                 mapa[xet-1][yet].classList.add("pisadas");
                 mapa[xet][yet].classList.add("personaje");
-                moverMomia();
             }
             break;
         case "d":
@@ -77,62 +76,93 @@ document.addEventListener('keydown', function(event) {
                 yet++;
                 mapa[xet][yet-1].classList.add("pisadas");
                 mapa[xet][yet].classList.add("personaje");
-                moverMomia();
             }
             break;
     }
+    comprobarCajas();
+    
+    comprobarColumnasAdyecentes();
+
 });
+
+// Comprobamos si hay columans adyacentes al personaje
+function comprobarColumnasAdyecentes() {
+    
+    // Comprobar si hay columna a la derecha
+    if (mapa[xet][yet + 1].className.indexOf("columna") >= 0) {
+        mapa[xet][yet + 1].classList.remove("columnas");
+        mapa[xet][yet + 1].classList.add("columnasAdyacentes");
+    }
+
+    // Comprobar si hay columna a la izquierda
+    if (mapa[xet][yet - 1].className.indexOf("columna") >= 0) {
+        mapa[xet][yet - 1].classList.remove("columnas");
+        mapa[xet][yet - 1].classList.add("columnasAdyacentes");
+    }
+
+    // Comprobar si hay columna debajo
+    if (mapa[xet + 1][yet].className.indexOf("columna") >= 0) {
+        mapa[xet + 1][yet].classList.remove("columnas");
+        mapa[xet + 1][yet].classList.add("columnasAdyacentes");
+
+    }
+
+    // Comprobar si hay columna a la arriba
+    if (mapa[xet - 1][yet].className.indexOf("columna") >= 0) {
+        mapa[xet - 1][yet].classList.remove("columnas");
+        mapa[xet - 1][yet].classList.add("columnasAdyacentes");
+    }
+}
+
 
 function moverMomia() {
 
-    //do {
-        
-        //do {
-            mapa[xpredator][ypredator].classList.add("pasillo");
-            if (mapa[xpredator-1][ypredator].className.indexOf("pasillo") >= 0
-                || mapa[xpredator][ypredator-1].className.indexOf("pasillo") >= 0
-                || mapa[xpredator+1][ypredator].className.indexOf("pasillo") >= 0
-                || mapa[xpredator][ypredator+1].className.indexOf("pasillo") >= 0) {
+    if (mapa[xpredator-1][ypredator].className.indexOf("pasillo") >= 0) {
+        buscandoAEt();
+    } else if (mapa[xpredator][ypredator-1].className.indexOf("pasillo") >= 0) {
+        buscandoAEt();
+    } else if (mapa[xpredator+1][ypredator].className.indexOf("pasillo") >= 0) {
+        buscandoAEt();
+    } else if (mapa[xpredator][ypredator+1].className.indexOf("pasillo") >= 0) {
+        buscandoAEt();
+    }
 
-                if (xpredator < xet) {
-                    mapa[xpredator][ypredator].classList.remove("momia");
-                    mapa[xpredator][ypredator].classList.add("pasillo");
-                    xpredator++;
-                    mapa[xpredator][ypredator].classList.add("momia");
-                } else if (xpredator > xet) {
-                    mapa[xpredator][ypredator].classList.remove("momia");
-                    mapa[xpredator][ypredator].classList.add("pasillo");
-                    xpredator--;
-                    mapa[xpredator][ypredator].classList.add("momia");
-                }
+
+    if (mapa[xet][yet] == mapa[xpredator][ypredator]) {
             
-                if (ypredator < yet) {
-                    mapa[xpredator][ypredator].classList.remove("momia");
-                    mapa[xpredator][ypredator].classList.add("pasillo");
-                    ypredator++;
-                    mapa[xpredator][ypredator].classList.add("momia");
-                } else if (ypredator > yet) {
-                    mapa[xpredator][ypredator].classList.remove("momia");
-                    mapa[xpredator][ypredator].classList.add("pasillo");
-                    ypredator--;
-                    mapa[xpredator][ypredator].classList.add("momia");
-                }
-
-                if (mapa[xet][yet] == mapa[xpredator][ypredator]) {
-                            
-                    //volverAlJuego();
-                    personajeEnTablero = false;
-                    finalizarJuego();
-                }
-            }
-
-        //} while (personajeEnTablero);
-
-    //} while (mapa[xet][yet] != mapa[xpredator][ypredator]);
+        //volverAlJuego();
+        personajeEnTablero = false;
+        finalizarJuego();
+    }
 
 
 }
 
+function buscandoAEt() {
+    if (xpredator < xet) {
+        mapa[xpredator][ypredator].classList.remove("momia");
+        mapa[xpredator][ypredator].classList.add("pasillo");
+        xpredator++;
+        mapa[xpredator][ypredator].classList.add("momia");
+    } else if (xpredator > xet) {
+        mapa[xpredator][ypredator].classList.remove("momia");
+        mapa[xpredator][ypredator].classList.add("pasillo");
+        xpredator--;
+        mapa[xpredator][ypredator].classList.add("momia");
+    }
+
+    if (ypredator < yet) {
+        mapa[xpredator][ypredator].classList.remove("momia");
+        mapa[xpredator][ypredator].classList.add("pasillo");
+        ypredator++;
+        mapa[xpredator][ypredator].classList.add("momia");
+    } else if (ypredator > yet) {
+        mapa[xpredator][ypredator].classList.remove("momia");
+        mapa[xpredator][ypredator].classList.add("pasillo");
+        ypredator--;
+        mapa[xpredator][ypredator].classList.add("momia");
+    }
+}
 function volverAlJuego() {
     
     vidas--;
@@ -144,8 +174,6 @@ function volverAlJuego() {
     yet = 8;
 
     mapa[xet][yet].classList.add("personaje");
-
-
 
     // Si las vidas se terminan, logicamente el juego termina
     if (vidas == 0) {
@@ -161,6 +189,23 @@ function volverAlJuego() {
 
 function finalizarJuego() {
     alert("Serás gili******...");
+}
+
+function comprobarCajas() {
+    
+    let bloquesColumnas = document.querySelectorAll(".columnas");
+
+    console.log(bloquesColumnas.length);
+
+    for (let i = 0; i < 120; i++) {
+
+        if (i % 3 == 0) {
+            
+            
+        }
+    }
+
+    
 }
 
 function cuadricula(ancho, alto) {
@@ -219,7 +264,7 @@ function cuadricula(ancho, alto) {
                 divCuadricula.classList.remove("pasillo");
             }*/
 
-            //divCuadricula.innerHTML = i + " - " + j;
+            divCuadricula.innerHTML = i + " - " + j;
             document.getElementById("contenedor").appendChild(divCuadricula);
             
             mapa[i][j] = divCuadricula;
@@ -228,5 +273,5 @@ function cuadricula(ancho, alto) {
         }
     }
 
-    console.table(mapa);
+    //console.table(mapa);
 }
