@@ -49,6 +49,11 @@ body {
     background-position: center;
     
 }
+
+.columnasAdyacentes {
+    background-image: url("imagenes/arena.png");
+}
+
 .pisadas {
 
 
@@ -64,12 +69,40 @@ body {
     background-position: center;
 }
 
-.momia{
+.momia {
     background-image: url("imagenes/predator.png");
     background-size: 80%;
     background-repeat: no-repeat;
     background-position: center;
     
+}
+
+.pergamino {
+    background-image: url("imagenes/pergamino1.png");
+    background-size: 80%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.llave {
+    background-image: url("imagenes/llave.png");
+    background-size: 80%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.sarcofago {
+    background-image: url("imagenes/sarcofago.png");
+    background-size: 80%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.nada {
+    background-image: url("imagenes/arena.png");
+    background-size: 80%;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .columnas {
