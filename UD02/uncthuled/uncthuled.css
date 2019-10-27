@@ -21,11 +21,6 @@ body {
     grid-template-rows: repeat(16, var(--tamanyo-cuadricula));
 }
 
-/* .cuadricula {
-    color: white;
-    background-color: yellow;
-} */
-
 .pasillo {
     /* background-color: green; */
     /* background-image: url("imagenes/suelo.jpg"); */
@@ -67,6 +62,22 @@ body {
     background-size: 50%;
 
     background-position: center;
+}
+
+.corazon {
+    background-color: black;
+    background-image: url("imagenes/corazon.png");
+    background-size: 70%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.vidas {
+    margin: auto;
+    background-image: url();
+    background-color: black;
+    color: yellow;
+    
 }
 
 .momia {
