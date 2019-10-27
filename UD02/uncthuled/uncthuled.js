@@ -387,3 +387,16 @@ function cuadricula(ancho, alto) {
     //console.table(mapa);
 }
 // FIN Crear Cuadrícula
+
+function comprobarSalida() {
+    
+    if (xet == 1 && yet == 8 && llave == 1 && urna == 1) {
+        
+        nivel++;
+        momia++;
+    }
+}
+
+function generarMomias() {
+    
+}
