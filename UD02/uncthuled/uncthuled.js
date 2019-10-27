@@ -271,6 +271,43 @@ function marcarColumnasAdyecentes() {
         
     }
 }
+
+function descubrirTesoro() {
+    var tesoro = Math.floor(Math.random() * 5);
+    
+    switch (descubrirTesoros[tesoro]) {
+        case "llave":
+            if (llave == 0) {
+                // Poner llave
+                llave++;
+            } else {
+                // No poner nada
+            }
+            break;
+        case "urna":
+            if (urna == 0) {
+                // Poner urna
+                urna++;
+            } else {
+                // No poner nada
+            }
+            break;
+        case "pergamino":
+                if (pergamino == 0) {
+                    // Poner pergamino
+                    pergamino++;
+                } else {
+                    // No poner nada
+                }
+            break;
+        case "momia":
+            break;
+        case "nada":
+            break;
+        default:
+            break;
+    }
+}
 // FIN Columnas
 
 // INICIO Resetear Juego
