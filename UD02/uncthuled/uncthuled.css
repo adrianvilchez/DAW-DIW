@@ -110,6 +110,7 @@ body {
 }
 
 .nada {
+    background-color: black;
     background-image: url("imagenes/arena.png");
     background-size: 80%;
     background-repeat: no-repeat;
