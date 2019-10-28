@@ -369,6 +369,14 @@ function descubrirTesoro(x, y) {
         default:
             break;
     }
+
+    var contadorLlaves = document.querySelector(".llaves");
+
+    contadorLlaves.innerHTML = llave;
+
+    var contadorUrnas = document.querySelector(".urnas");
+
+    contadorUrnas.innerHTML = urna;
     return tesoroDescubierto;
 }
 // FIN Columnas
@@ -471,6 +479,30 @@ function cuadricula(ancho, alto) {
                 divCuadricula.classList.add("vidas");
                 divCuadricula.innerHTML = vidas;
             }
+
+            if (i == 0 && j == 18) {
+                divCuadricula.classList.remove("fondo");
+                divCuadricula.classList.add("llave");
+            }
+
+            if (i == 0 && j == 19) {
+                divCuadricula.classList.remove("fondo");
+                divCuadricula.classList.add("llaves");
+                divCuadricula.innerHTML = llave;
+            }
+
+            if (i == 0 && j == 20) {
+                divCuadricula.classList.remove("fondo");
+                divCuadricula.classList.add("urna");
+            }
+
+            if (i == 0 && j == 21) {
+                divCuadricula.classList.remove("fondo");
+                divCuadricula.classList.add("urnas");
+                divCuadricula.innerHTML = urna;
+            }
+
+
 
             //divCuadricula.innerHTML = i + " - " + j;
 

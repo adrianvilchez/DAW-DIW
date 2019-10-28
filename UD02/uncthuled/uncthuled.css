@@ -72,9 +72,9 @@ body {
     background-position: center;
 }
 
-.vidas {
+.vidas, .llaves, .urnas {
     margin: auto;
-    background-image: url();
+    /* background-image: url(); */
     background-color: black;
     color: yellow;
     
@@ -89,6 +89,7 @@ body {
 }
 
 .pergamino {
+    background-color: black;
     background-image: url("imagenes/pergamino1.png");
     background-size: 80%;
     background-repeat: no-repeat;
@@ -96,6 +97,7 @@ body {
 }
 
 .llave {
+    background-color: black;
     background-image: url("imagenes/llave.png");
     background-size: 80%;
     background-repeat: no-repeat;
@@ -104,6 +106,14 @@ body {
 
 .sarcofago {
     background-image: url("imagenes/sarcofago.png");
+    background-size: 80%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.urna {
+    background-color: black;
+    background-image: url("imagenes/urna.png");
     background-size: 80%;
     background-repeat: no-repeat;
     background-position: center;
