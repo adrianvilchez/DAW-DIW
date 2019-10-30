@@ -1,6 +1,8 @@
 :root {
     --tamanyo-cuadricula: 45px;
 
+    --bgc-black: black;
+
     /* --bg-color-verde-asqueroso: greenyellow; */
 }
 
@@ -37,13 +39,6 @@ body {
     background-position: center;
 }
 
-.personaje{
-    background-image: url("imagenes/et.png");
-    background-size: 35%;
-    background-repeat: no-repeat;
-    background-position: center;
-    
-}
 
 .columnasAdyacentes {
     background-image: url("imagenes/arena.png");
@@ -52,9 +47,9 @@ body {
 .pisadas {
 
 
-    transition-duration: 2s;
+    /* transition-duration: 2s; */
 
-    scale: (1.5);
+    /* scale: (1.5); */
 
     
     
@@ -62,6 +57,14 @@ body {
     background-size: 50%;
 
     background-position: center;
+}
+
+.personaje{
+    background-image: url("imagenes/et.png");
+    background-size: 35%;
+    background-repeat: no-repeat;
+    background-position: center;
+    
 }
 
 .corazon {
@@ -72,12 +75,19 @@ body {
     background-position: center;
 }
 
-.vidas, .llaves, .urnas {
-    margin: auto;
+.vidas, .llaves, .urnas, .pergaminos, .momias {
+    /* margin: auto; */
     /* background-image: url(); */
-    background-color: black;
+    background-color: var(--bgc-black);
     color: yellow;
     
+}
+
+.columnas {
+    background-image: url("imagenes/columna.jpg");
+    background-size: 100%;
+    /* background-repeat: no-repeat; */
+    background-position: center;
 }
 
 .momia {
@@ -89,7 +99,7 @@ body {
 }
 
 .pergamino {
-    background-color: black;
+    background-color: var(--bgc-black);
     background-image: url("imagenes/pergamino1.png");
     background-size: 80%;
     background-repeat: no-repeat;
@@ -97,7 +107,7 @@ body {
 }
 
 .llave {
-    background-color: black;
+    background-color: var(--bgc-black);
     background-image: url("imagenes/llave.png");
     background-size: 80%;
     background-repeat: no-repeat;
@@ -105,14 +115,23 @@ body {
 }
 
 .sarcofago {
+    background-color: var(--bgc-black);
     background-image: url("imagenes/sarcofago.png");
     background-size: 80%;
     background-repeat: no-repeat;
     background-position: center;
 }
 
+.tesoro {
+    background-color: var(--bgc-black);
+    background-image: url("imagenes/tesoro.png");
+    background-size: 80%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
 .urna {
-    background-color: black;
+    background-color: var(--bgc-black);
     background-image: url("imagenes/urna.png");
     background-size: 80%;
     background-repeat: no-repeat;
@@ -127,9 +146,54 @@ body {
     background-position: center;
 }
 
-.columnas {
-    background-image: url("imagenes/columna.jpg");
-    background-size: 100%;
-    /* background-repeat: no-repeat; */
-    background-position: center;
+
+.score {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    /* overflow: hidden; */
+    background-color: var(--bgc-black);
+
+}
+
+.scoreP {
+    width: 200%;
+    height: 100%;
+    position: absolute;
+    background-color: var(--bgc-black);
+    color: yellow;
+}
+
+.puntuacion {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    /* overflow: hidden; */
+    background-color: var(--bgc-black);
+
+}
+
+.puntos {
+    width: 200%;
+    height: 100%;
+    position: absolute;
+    background-color: var(--bgc-black);
+    color: yellow;
+}
+
+.niveles {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    /* overflow: hidden; */
+    background-color: var(--bgc-black);
+
+}
+
+.nivel {
+    width: 200%;
+    height: 100%;
+    position: absolute;
+    background-color: var(--bgc-black);
+    color: yellow;
 }

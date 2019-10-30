@@ -11,6 +11,9 @@ var yet = 8;
 var xpredator = 14;
 var ypredator = 20;
 
+var xpredatorTesoro;
+var ypredatorTesoro;
+
 var xpredator2 = 14;
 var ypredator2 = 18;
 
@@ -21,9 +24,13 @@ var nivel = 1;
 
 var vidas = 5;
 
-var llave = 1;
-var pergamino = 1;
-var urna = 1;
+var puntos = 0;
+
+var llave = 0;
+var pergamino = 0;
+
+var tienePergamino = false;
+var urna = 0;
 
 var momia = 1;
 
@@ -33,11 +40,18 @@ var velocidadMomia = 250;
 
 var personajeEnTablero = true;
 
-var descubrirTesoros = [ "llave", "pergamino", "urna", "momia", "nada" ];
+var descubrirTesoros = [ "llave", "pergamino", "urna", "momia",
+"tesoro", "tesoro", "tesoro", "tesoro",
+"tesoro", "tesoro", "tesoro", "nada",
+"nada", "nada", "nada", "nada",
+"nada", "nada", "nada", "nada" ];
 
 var movPredator = [ "arr" ,"ab", "izq", "der" ];
 
+var intervaloPrincipal;
+
 window.onload = function() {
+
     var divCuadricula;
 
     mapa = new Array(16);
@@ -51,20 +65,39 @@ window.onload = function() {
 
     cuadricula(23, 16);
 
-    comprobarCajas();
 
-    setInterval(() => {
+    correrMomia();
+
+
+    shuffleArray(descubrirTesoros);
+
+    mapa[14][21].classList.remove("momia");
+
+};
+
+function correrMomia() {
+    intervaloPrincipal = setInterval(() => {
 
         if (esInterseccion()) moverPredator();
 
-    }, velocidadMomia);
+        
 
-};
+    }, velocidadMomia);
+}
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
 
 // INICIO Mover Personaje
 document.addEventListener('keydown', function(event) {
 
     let tecla = event.key;
+
+    mapa[1][8].classList.remove("personaje");
 
     switch (tecla) {
 
@@ -72,9 +105,8 @@ document.addEventListener('keydown', function(event) {
         case "ArrowUp":
             if (mapa[xet-1][yet].className.indexOf("pasillo") >= 0) {
                 mapa[xet][yet].classList.remove("personaje");
-                mapa[xet-1][yet].classList.remove("pisadas");
                 xet--;
-                mapa[xet+1][yet].classList.add("pisadas");
+                mapa[xet][yet].classList.add("pisadas");
                 mapa[xet][yet].classList.add("personaje");
             }
             break;
@@ -82,19 +114,17 @@ document.addEventListener('keydown', function(event) {
         case "ArrowLeft":
             if (mapa[xet][yet-1].className.indexOf("pasillo") >= 0) {
                 mapa[xet][yet].classList.remove("personaje");
-                mapa[xet][yet-1].classList.remove("pisadas");
                 yet--;
-                mapa[xet][yet+1].classList.add("pisadas");
+                mapa[xet][yet].classList.add("pisadas");
                 mapa[xet][yet].classList.add("personaje");
             }
             break;
         case "s":
         case "ArrowDown":
             if (mapa[xet+1][yet].className.indexOf("pasillo") >= 0) {
-                mapa[xet][yet-1].classList.remove("personaje");
-                mapa[xet+1][yet].classList.remove("pisadas");
+                mapa[xet][yet].classList.remove("personaje");
                 xet++;
-                mapa[xet-1][yet].classList.add("pisadas");
+                mapa[xet][yet].classList.add("pisadas");
                 mapa[xet][yet].classList.add("personaje");
             }
             break;
@@ -102,29 +132,35 @@ document.addEventListener('keydown', function(event) {
         case "ArrowRight":
             if (mapa[xet][yet+1].className.indexOf("pasillo") >= 0) {
                 mapa[xet][yet].classList.remove("personaje");
-                mapa[xet][yet+1].classList.remove("pisadas");
                 yet++;
-                mapa[xet][yet-1].classList.add("pisadas");
+                mapa[xet][yet].classList.add("pisadas");
                 mapa[xet][yet].classList.add("personaje");
             }
             break;
     }
 
-    marcarColumnasAdyecentes();
-    obtenerColumnas();
+
+    // Contamos las pisadas de cada caja
+    if (mapa[xet-1][yet].classList.contains("columnas")) { comprobarCajas(xet-1, yet); }
+    if (mapa[xet+1][yet].classList.contains("columnas")) { comprobarCajas(xet+1, yet); }
+    if (mapa[xet][yet-1].classList.contains("columnas")) { comprobarCajas(xet, yet-1); }
+    if (mapa[xet][yet+1].classList.contains("columnas")) { comprobarCajas(xet, yet+1); }
+
+
+    // Comprobamos si es jugador puede salir
     comprobarSalida();
 
 });
 // FIN Mover Personaje
 
 // INICIO Mover Momia
-function moverPredator() {
-
+function moverPredator(x, y) {
+    //console.log("mover predator");
     var direccion = Math.floor(Math.random() * 4);
     
     var salir = false;
 
-    mapa[14][21].classList.remove("momia");
+    
 
     switch (movPredator[direccion]) {
 
@@ -164,11 +200,18 @@ function moverPredator() {
             break;
     }
 
-    if (mapa[xet][yet] == mapa[xpredator][ypredator]) {
+    if (mapa[xet][yet] == mapa[xpredator][ypredator] && !tienePergamino) {
             
         //volverAlJuego();
         personajeEnTablero = false;
         volverAlJuego();
+    } else if (mapa[xet][yet] == mapa[xpredator][ypredator] && tienePergamino) {
+        clearInterval(intervaloPrincipal);
+        mapa[xpredator][ypredator].classList.remove("momia");
+
+        momia--;
+
+        document.querySelector(".momias").innerHTML = momia;
     }
 }
 
@@ -194,190 +237,107 @@ function existePasillo(x, y) {
 // FIN Mover Momia
 
 // INICIO Columnas
-function comprobarCajas() {
-    
-    let bloquesColumnas = document.querySelectorAll(".columnas");
+function comprobarCajas(xs, ys) {
 
-    let bloqueColumnas;
+    var x = parseInt(xs);
+    var y = parseInt(ys);
 
-    console.log(bloquesColumnas.length);
-
-    for (let i = 0; i < bloquesColumnas.length; i++) {
-
-        bloqueColumnas = bloquesColumnas[i].getAttribute("data-indice");
-        //bloqueColumnas = bloquesColumnas[i].dataset.indice;
-
-        // Calculamos si el bloque está en una línea par
-        if (parseInt(i / 15) % 2 == 0) {
-          
-            if (i % 3 == 0) {
-                
-                posicionesPrimeraColumnaX.push(bloquesColumnas[i].getAttribute("data-x"));
-                posicionesPrimeraColumnaY.push(bloquesColumnas[i].getAttribute("data-y"));
-            }  
-        }
-
+    if (!mapa[x-1][y].classList.contains("pasillo")) {
+        x--;
     }
 
-    /*while (mapa[xinicioColumnas][yinicioColumnas - 1].classList.contains("columnas")) {
-        
-        xinicioColumnas--;
+    while (mapa[x][y-1].classList.contains("columnas")) {
+        y--;
+    }
 
-        while (mapa[xinicioColumnas - 1][yinicioColumnas].classList.contains("columnas")) {
-
-            yinicioColumnas--;
-        }
-    }*/
+    //comprobamos si está rodeada
+    comprobarRodeada(x-1, y-1);
 }
 
-function obtenerColumnas() {
-    
-    for (let i = 0; i < 20; i++) {
-        comprobarColumna(parseInt(posicionesPrimeraColumnaX[i]), parseInt(posicionesPrimeraColumnaY[i]));
+function eliminarElementoArray(arr, item)  {
+
+    var i = arr.indexOf(item);
+ 
+    if (i !== -1) {
+        arr.splice(i, 1);
     }
 }
 
-function comprobarColumna(x, y) {
-    
-    if (!mapa[x][y].classList.contains("momia")
-    || !mapa[x][y].classList.contains("pergamino")
-    || !mapa[x][y].classList.contains("urna")
-    || !mapa[x][y].classList.contains("llave")
-    || !mapa[x][y].classList.contains("nada")) {
-        if (mapa[x][y].classList.contains("rodeada")
-        && mapa[x][y+1].classList.contains("rodeada")
-        && mapa[x][y+2].classList.contains("rodeada")
-        && mapa[x+1][y].classList.contains("rodeada")
-        && mapa[x+1][y+1].classList.contains("rodeada")
-        && mapa[x+1][y+2].classList.contains("rodeada")
-        
-        && mapa[x][y-1].classList.contains("pisadas")
-        && mapa[x+1][y-1].classList.contains("pisadas")
-        && mapa[x+2][y].classList.contains("pisadas")
-        && mapa[x+2][y+1].classList.contains("pisadas")
-        && mapa[x+2][y+2].classList.contains("pisadas")
-        && mapa[x+1][y+3].classList.contains("pisadas")
-        && mapa[x][y+3].classList.contains("pisadas")
-        && mapa[x-1][y+3].classList.contains("pisadas")
-        && mapa[x-1][y+2].classList.contains("pisadas")
-        && mapa[x-1][y].classList.contains("pisadas")) {
-            console.log("Los 6 divs contienen la clase 'rodeada'.  " + x + "    " + y);
-            pintarTesoro(x, y, descubrirTesoro(x, y));
-        }   
-    }
+function comprobarRodeada(x, y) {
 
-}
+    var pisadas = 0;
 
-// Comprobamos si hay columans adyacentes al personaje
-function marcarColumnasAdyecentes() {
-    
-    if (mapa[xet + 1][yet].className.indexOf("columna") >= 0
-        || mapa[xet - 1][yet].className.indexOf("columna") >= 0
-        || mapa[xet][yet + 1].className.indexOf("columna") >= 0
-        || mapa[xet][yet - 1].className.indexOf("columna") >= 0) {
+    for (let i = x; i <= x + 3; i++) {
+        for (let j = y; j <= y + 4 ; j++) {
 
-        mapa[xet+1][yet].classList.add("rodeada");
-        mapa[xet][yet+1].classList.add("rodeada");
-        mapa[xet-1][yet].classList.add("rodeada");
-        mapa[xet][yet-1].classList.add("rodeada");
-        
-    }
-}
-
-function pintarTesoro(x, y, tesoro) {
-    mapa[x][y].classList.add(tesoro)
-    && mapa[x][y+1].classList.add(tesoro)
-    && mapa[x][y+2].classList.add(tesoro)
-    && mapa[x+1][y].classList.add(tesoro)
-    && mapa[x+1][y+1].classList.add(tesoro)
-    && mapa[x+1][y+2].classList.add(tesoro);
-}
-
-function descubrirTesoro(x, y) {
-    var tesoro = Math.floor(Math.random() * 5);
-    
-    var tesoroDescubierto  = descubrirTesoros[tesoro];
-
-    switch (tesoroDescubierto) {
-        case "llave":
-            if (llave == 1 &&
-                !mapa[x][y].classList.contains("momia")
-                || !mapa[x][y].classList.contains("urna")
-                || !mapa[x][y].classList.contains("pergamino")
-                || !mapa[x][y].classList.contains("nada")) {
-                // Poner llave
-                llave--;
-            } else if (llave == 0 && !mapa[x][y].classList.contains("llave")
-            || !mapa[x][y].classList.contains("momia")
-                || !mapa[x][y].classList.contains("urna")
-                || !mapa[x][y].classList.contains("pergamino")) {
-                // No poner nada
-                tesoroDescubierto = "nada";
+            //console.log(i + " - " + j );
+            if (mapa[i][j].classList.contains("pisadas")) {
+                pisadas++;
             }
-            break;
-        case "urna":
-            if (urna == 1 &&
-                !mapa[x][y].classList.contains("momia")
-                || !mapa[x][y].classList.contains("pergamino")
-                || !mapa[x][y].classList.contains("llave")
-                || !mapa[x][y].classList.contains("nada")) {
-                // Poner urna
-                urna--;
-            } else if (urna == 0 && !mapa[x][y].classList.contains("urna")
-            || !mapa[x][y].classList.contains("momia")
-                || !mapa[x][y].classList.contains("pergamino")
-                || !mapa[x][y].classList.contains("llave")) {
-                // No poner nada
-                tesoroDescubierto = "nada";
-            }
-            break;
-        case "pergamino":
-                if (pergamino == 1 &&
-                    !mapa[x][y].classList.contains("momia")
-                    || !mapa[x][y].classList.contains("urna")
-                    || !mapa[x][y].classList.contains("llave")
-                    || !mapa[x][y].classList.contains("nada")) {
-                    // Poner pergamino
-                    pergamino--;
-                } else if (pergamino == 0 && !mapa[x][y].classList.contains("pergamino")
-                || !mapa[x][y].classList.contains("momia")
-                || !mapa[x][y].classList.contains("urna")
-                || !mapa[x][y].classList.contains("llave")) {
-                    // No poner nada
-                    tesoroDescubierto = "nada";
-                }
-            break;
-        case "momia":
-                if (momia == 1 &&
-                !mapa[x][y].classList.contains("pergamino")
-                || !mapa[x][y].classList.contains("urna")
-                || !mapa[x][y].classList.contains("llave")
-                || !mapa[x][y].classList.contains("nada")) {
-                    // Poner pergamino
-                    momia--;
-                } else if (momia == 0 && !mapa[x][y].classList.contains("momia")
-                || !mapa[x][y].classList.contains("pergamino")
-                || !mapa[x][y].classList.contains("urna")
-                || !mapa[x][y].classList.contains("llave")) {
-                    // No poner nada
-                    tesoroDescubierto = "nada";
-                }
-            break;
-        // case "nada":
-        //         tesoroDescubierto = "nada";
-        //     break;
-        default:
-            break;
+        }
     }
 
-    var contadorLlaves = document.querySelector(".llaves");
+    if (pisadas >= 14) {
 
-    contadorLlaves.innerHTML = llave;
+        if (!mapa[x+1][y+1].classList.contains("momia")
+            && !mapa[x+1][y+1].classList.contains("llave")
+            && !mapa[x+1][y+1].classList.contains("urna")
+            && !mapa[x+1][y+1].classList.contains("nada")
+            && !mapa[x+1][y+1].classList.contains("pergamino")
+            && !mapa[x+1][y+1].classList.contains("tesoro")) {
 
-    var contadorUrnas = document.querySelector(".urnas");
+            var seleccionAleatoria = Math.floor(Math.random() * descubrirTesoros.length);
 
-    contadorUrnas.innerHTML = urna;
-    return tesoroDescubierto;
+            var tesoro = descubrirTesoros[seleccionAleatoria];
+
+            eliminarElementoArray(descubrirTesoros, tesoro);
+
+            mapa[x+1][y+1].classList.add(tesoro);
+            mapa[x+1][y+2].classList.add(tesoro);
+            mapa[x+1][y+3].classList.add(tesoro);
+            mapa[x+2][y+1].classList.add(tesoro);
+            mapa[x+2][y+2].classList.add(tesoro)
+            mapa[x+2][y+3].classList.add(tesoro);
+
+            switch (tesoro) {
+                case "tesoro":
+                    puntos += 100;
+
+                    document.querySelector(".puntos").innerHTML = puntos;
+                    break;
+                case "llave":
+                    llave = 1;
+
+                    document.querySelector(".llaves").innerHTML = llave;
+                    break;
+                case "urna":
+                    urna = 1;
+
+                    document.querySelector(".urnas").innerHTML = urna;
+                    break;
+                case "pergamino":
+                    pergamino = 1;
+
+                    tienePergamino = true;
+                    break;
+                case "momia":
+                        xpredatorTesoro = x+3;
+                        ypredatorTesoro= y+3;
+
+                        setInterval(() => {
+
+                            mapa[xpredatorTesoro][ypredatorTesoro].classList.add("momia");
+                        }, 1000);
+                    
+                    momia += 1;
+
+                    document.querySelector(".momias").innerHTML = momia;
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 }
 // FIN Columnas
 
@@ -432,7 +392,7 @@ function cuadricula(ancho, alto) {
             
             divCuadricula.classList.add("cuadricula");
 
-            divCuadricula.dataset.indice = contador;
+            //divCuadricula.dataset.indice = contador;
 
             // Fondo verde asqueroso
             if (i == 0 || j == 0 || i == 1 || i == 22 || j == 22 || i == 15) {
@@ -464,9 +424,48 @@ function cuadricula(ancho, alto) {
                 divCuadricula.classList.remove("fondo");
             }
 
+            if (i == 0 && j == 1) {
+                    
+                divCuadricula.classList.add("score");
+            }
+
+            if (i == 0 && j == 3) {
+                    
+                divCuadricula.classList.add("puntuacion");
+            }
+
+            if (i == 0 && j == 5) {
+                    
+                divCuadricula.classList.add("niveles");
+            }
+
             // Casilla de salida momia
             if (i == 14 && j == 21) {
                 divCuadricula.classList.add("momia");
+            }
+
+            if (i == 0 && j == 10) {
+                divCuadricula.classList.remove("fondo");
+                divCuadricula.classList.add("momia");
+                divCuadricula.style.backgroundColor = "black";
+            }
+
+            if (i == 0 && j == 11) {
+                divCuadricula.classList.remove("fondo");
+                divCuadricula.classList.add("momias");
+                divCuadricula.innerHTML = momia;
+                
+            }
+
+            if (i == 0 && j == 13) {
+                divCuadricula.classList.remove("fondo");
+                divCuadricula.classList.add("pergamino");
+            }
+
+            if (i == 0 && j == 14) {
+                divCuadricula.classList.remove("fondo");
+                divCuadricula.classList.add("pergaminos");
+                divCuadricula.innerHTML = pergamino;
             }
 
             if (i == 0 && j == 16) {
@@ -502,7 +501,15 @@ function cuadricula(ancho, alto) {
                 divCuadricula.innerHTML = urna;
             }
 
+            mapa[i][j] = divCuadricula;
 
+            if (i % 3 == 0 && (j - 2) % 4 == 0 && mapa[i][j].classList.contains("columnas")) {
+
+                
+                divCuadricula.dataset.indice = contador;
+                contador++;   
+                
+            }
 
             //divCuadricula.innerHTML = i + " - " + j;
 
@@ -512,9 +519,46 @@ function cuadricula(ancho, alto) {
             
             mapa[i][j] = divCuadricula;
 
-            contador++;
+            //divCuadricula.dataset.indice = contador;
+
+            //contador++;
+
+            if (i == 0 && j == 1) {
+
+                var divHijo = document.createElement("div");
+                    
+                document.querySelector(".score").appendChild(divHijo);
+
+                divHijo.classList.add("scoreP");
+
+                divHijo.innerHTML = "Puntuación: ";
+            }
+
+            if (i == 0 && j == 3) {
+
+                var divHijo = document.createElement("div");
+                    
+                document.querySelector(".puntuacion").appendChild(divHijo);
+
+                divHijo.classList.add("puntos");
+
+                divHijo.innerHTML = puntos;
+            }
+
+            if (i == 0 && j == 5) {
+
+                var divHijo = document.createElement("div");
+                    
+                document.querySelector(".niveles").appendChild(divHijo);
+
+                divHijo.classList.add("nivel");
+
+                divHijo.innerHTML = "Nivel: " + nivel;
+            }
         }
     }
+
+
 
     //console.table(mapa);
 }
@@ -522,25 +566,66 @@ function cuadricula(ancho, alto) {
 
 function comprobarSalida() {
     
-    if (xet == 1 && yet == 8 && llave <= 0 && urna <= 0) {
+    if (xet == 1 && yet == 8 && llave == 1 && urna == 1) {
         
+        puntos += 1000;
+        document.querySelector(".puntos").innerHTML = puntos;
+
         nivel++;
+
+        document.querySelector(".nivel").innerHTML =  "Nivel: " + nivel;
+
         momia++;
         alert("pasas de nivel");
 
         generarMomias();
 
-        llave = 1;
-        urna = 1;
-        pergamino = 1;
-        momia = 1;
+        llave = 0;
+        document.querySelector(".llaves").innerHTML = llave;
+        
+        urna = 0;
+        document.querySelector(".urnas").innerHTML = urna;
 
+        pergamino = 0;
+
+        tienePergamino = false;
+
+
+        // Eliminamos todas las pisadas
+        var eliminarPisadas = document.querySelectorAll(".pisadas");
+
+        for (let i = 0; i < eliminarPisadas.length; i++) {
+            eliminarPisadas[i].classList.remove("pisadas");
+        }
+
+        var eliminarTesoros = document.querySelectorAll(".columnas");
+        
+        for (let i = 0; i < eliminarTesoros.length; i++) {
+            eliminarTesoros[i].classList.remove("nada");
+            eliminarTesoros[i].classList.remove("tesoro");
+            eliminarTesoros[i].classList.remove("llave");
+            eliminarTesoros[i].classList.remove("urna");
+            eliminarTesoros[i].classList.remove("momia");
+            eliminarTesoros[i].classList.remove("pergamino");
+        }
+
+        descubrirTesoros = [ "llave", "pergamino", "urna", "momia",
+            "tesoro", "tesoro", "tesoro", "tesoro",
+            "tesoro", "tesoro", "tesoro", "nada",
+            "nada", "nada", "nada", "nada",
+            "nada", "nada", "nada", "nada" ];
+
+            shuffleArray(descubrirTesoros);
+
+            correrMomia();
     }
 }
 
 function generarMomias() {
 
     momia++;
+
+    document.querySelector(".momias").innerHTML = momia;
 
     mapa[xpredator][ypredator -2].classList.add("momia");
     
