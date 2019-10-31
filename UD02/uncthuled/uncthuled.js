@@ -8,8 +8,8 @@ var posicionesPrimeraColumnaY;
 var xet = 1;
 var yet = 8;
 
-var xpredator = 14;
-var ypredator = 20;
+//var xpredator = 14;
+//var ypredator = 20;
 
 var xpredatorTesoro;
 var ypredatorTesoro;
@@ -66,7 +66,8 @@ window.onload = function() {
     cuadricula(23, 16);
 
 
-    correrMomia();
+    //correrMomia();
+    cargarPredator(0, 0);
 
 
     shuffleArray(descubrirTesoros);
@@ -75,15 +76,15 @@ window.onload = function() {
 
 };
 
-function correrMomia() {
+/*function correrMomia() {
     intervaloPrincipal = setInterval(() => {
 
-        if (esInterseccion()) moverPredator();
+        if (esInterseccion(m)) moverPredator(m);
 
         
 
     }, velocidadMomia);
-}
+}*/
 
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -153,8 +154,59 @@ document.addEventListener('keydown', function(event) {
 });
 // FIN Mover Personaje
 
+
+class Predator {
+    xpredator = 0;
+    ypredator = 0;
+
+    constructor(x, y) {
+        this.xpredator = x;
+        this.ypredator = y;
+    }
+}
+
+var predatorActivo = false;
+
+function  cargarPredator(xenemigo, yenemigo) {
+
+    var predator = false;
+
+    if (!predatorActivo) {
+
+        while (!predator) {
+            var XRandom = Math.floor(Math.random() * 13) + 1;
+            var YRandom = Math.floor(Math.random() * 20);
+
+            if (mapa[XRandom][YRandom].classList.contains("pasillo")) {
+                mapa[XRandom][YRandom].classList.add("momia");
+                P1 = new Predator(XRandom, YRandom);
+
+                predator = true;
+            }
+        }
+        predatorActivo = true;
+        
+
+        intervaloSecundario = setInterval(() => {
+            if (esInterseccion(P1)) moverPredator(P1);
+        }, velocidadMomia);
+
+    } else {
+        mapa[xenemigo][yenemigo].classList.add("momia");
+        P2 = new Predator(xenemigo, yenemigo);
+
+        intervaloPrincipal = setInterval(() => {
+
+            if (esInterseccion(P2)) moverPredator(P2);
+    
+            
+    
+        }, velocidadMomia);
+    }
+}
+
 // INICIO Mover Momia
-function moverPredator(x, y) {
+function moverPredator(p) {
     //console.log("mover predator");
     var direccion = Math.floor(Math.random() * 4);
     
@@ -165,49 +217,49 @@ function moverPredator(x, y) {
     switch (movPredator[direccion]) {
 
         case "izq":
-            if (!mapa[xpredator][ypredator-1].classList.contains("pasillo")) salir = false;
+            if (!mapa[p.xpredator][p.ypredator-1].classList.contains("pasillo")) salir = false;
             else { 
-                mapa[xpredator][ypredator].classList.remove("momia");
-                ypredator--;
-                mapa[xpredator][ypredator].classList.add("momia");
+                mapa[p.xpredator][p.ypredator].classList.remove("momia");
+                p.ypredator--;
+                mapa[p.xpredator][p.ypredator].classList.add("momia");
             }
             break;
         case "der":
-            if (!mapa[xpredator][ypredator+1].classList.contains("pasillo")) salir = false;
+            if (!mapa[p.xpredator][p.ypredator+1].classList.contains("pasillo")) salir = false;
             else { 
-                mapa[xpredator][ypredator].classList.remove("momia");
-                ypredator++;
-                mapa[xpredator][ypredator].classList.add("momia");
+                mapa[p.xpredator][p.ypredator].classList.remove("momia");
+                p.ypredator++;
+                mapa[p.xpredator][p.ypredator].classList.add("momia");
             }
             break;
         case "arr":
-            if (!mapa[xpredator+1][ypredator].classList.contains("pasillo")) salir = false;
+            if (!mapa[p.xpredator+1][p.ypredator].classList.contains("pasillo")) salir = false;
             else { 
-                mapa[xpredator][ypredator].classList.remove("momia");
-                xpredator++;
-                mapa[xpredator][ypredator].classList.add("momia");
+                mapa[p.xpredator][p.ypredator].classList.remove("momia");
+                p.xpredator++;
+                mapa[p.xpredator][p.ypredator].classList.add("momia");
             }
             break;
         case "ab":
-            if (!mapa[xpredator-1][ypredator].classList.contains("pasillo")) salir = false;
+            if (!mapa[p.xpredator-1][p.ypredator].classList.contains("pasillo")) salir = false;
             else { 
-                mapa[xpredator][ypredator].classList.remove("momia");
-                xpredator--;
-                mapa[xpredator][ypredator].classList.add("momia");
+                mapa[p.xpredator][p.ypredator].classList.remove("momia");
+                p.xpredator--;
+                mapa[p.xpredator][p.ypredator].classList.add("momia");
             }
             break;
         default:
             break;
     }
 
-    if (mapa[xet][yet] == mapa[xpredator][ypredator] && !tienePergamino) {
+    if (mapa[xet][yet] == mapa[p.xpredator][p.ypredator] && !tienePergamino) {
             
         //volverAlJuego();
         personajeEnTablero = false;
         volverAlJuego();
-    } else if (mapa[xet][yet] == mapa[xpredator][ypredator] && tienePergamino) {
-        clearInterval(intervaloPrincipal);
-        mapa[xpredator][ypredator].classList.remove("momia");
+    } else if (mapa[xet][yet] == mapa[p.xpredator][p.ypredator] && tienePergamino) {
+        //clearInterval(intervaloPrincipal);
+        mapa[p.xpredator][p.ypredator].classList.remove("momia");
 
         momia--;
 
@@ -215,13 +267,13 @@ function moverPredator(x, y) {
     }
 }
 
-function esInterseccion() {
+function esInterseccion(p) {
     var existe = false;
 
-    if (existePasillo(xpredator-1, ypredator)
-    || existePasillo(xpredator+1, ypredator)
-    || existePasillo(xpredator, ypredator-1)
-    || existePasillo(xpredator, ypredator+1)) {
+    if (existePasillo(p.xpredator-1, p.ypredator)
+    || existePasillo(p.xpredator+1, p.ypredator)
+    || existePasillo(p.xpredator, p.ypredator-1)
+    || existePasillo(p.xpredator, p.ypredator+1)) {
         existe = true;
     }
     return existe;
@@ -318,16 +370,17 @@ function comprobarRodeada(x, y) {
                 case "pergamino":
                     pergamino = 1;
 
+                    document.querySelector(".pergaminos").innerHTML = pergamino;
+
                     tienePergamino = true;
                     break;
                 case "momia":
+
+                        
                         xpredatorTesoro = x+3;
                         ypredatorTesoro= y+3;
 
-                        setInterval(() => {
-
-                            mapa[xpredatorTesoro][ypredatorTesoro].classList.add("momia");
-                        }, 1000);
+                        cargarPredator(xpredatorTesoro, ypredatorTesoro);
                     
                     momia += 1;
 
@@ -574,8 +627,7 @@ function comprobarSalida() {
         nivel++;
 
         document.querySelector(".nivel").innerHTML =  "Nivel: " + nivel;
-
-        momia++;
+        
         alert("pasas de nivel");
 
         generarMomias();
@@ -587,6 +639,7 @@ function comprobarSalida() {
         document.querySelector(".urnas").innerHTML = urna;
 
         pergamino = 0;
+        document.querySelector(".pergaminos").innerHTML = pergamino;
 
         tienePergamino = false;
 
@@ -617,7 +670,8 @@ function comprobarSalida() {
 
             shuffleArray(descubrirTesoros);
 
-            correrMomia();
+            //correrMomia();
+            cargarPredator(0, 0);
     }
 }
 
@@ -627,6 +681,16 @@ function generarMomias() {
 
     document.querySelector(".momias").innerHTML = momia;
 
-    mapa[xpredator][ypredator -2].classList.add("momia");
+    mapa[14][14].classList.add("momia");
+
+    P3 = new Predator(5, 7);
+
+    intervalo3 = setInterval(() => {
+
+        if (esInterseccion(P3)) moverPredator(P3);
+
+        
+
+    }, velocidadMomia);
     
 }
