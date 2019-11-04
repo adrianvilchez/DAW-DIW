@@ -1,3 +1,55 @@
-body {
-    background-color: black;
+
+section {
+    border: 1px dotted black;
+    width: 12%;
+    margin-bottom: 1%;
+    border-radius: 3%;
+}
+
+button {
+    height: 38px;
+    width: 50%;
+    border-radius: 3%;
+
+    font-size: 0.6em;
+
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+p {
+    text-align: center;
+}
+
+.caja {
+    background-image: url("cthulhu.svg");
+    background-size: 20px;
+    width: 20px;
+    height: 20px;
+
+    border: 1px solid black;
+    border-radius: 10%;
+
+    transition-property: background-color, transform;
+    transition-duration: 2s;
+    
+}
+
+/* .linear {
+    transition-timing-function: linear;
+    transform: translateX(170px);
+} */
+
+.transicionable{
+    background-color: blue;
+    transition-property: background-color, transform;
+    transition-duration: 2s;
+    transition-timing-function: linear;
+}
+
+.transicionable:hover{
+    background-color: #FABADA;
+
+    /* <length-percentage> values */
+    transform: translateX(200px);
 }
