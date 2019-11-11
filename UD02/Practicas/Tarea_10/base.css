@@ -29,27 +29,28 @@ p {
 
     border: 1px solid black;
     border-radius: 10%;
-
-    transition-property: background-color, transform;
-    transition-duration: 2s;
-    
 }
 
-/* .linear {
-    transition-timing-function: linear;
-    transform: translateX(170px);
-} */
-
-.transicionable{
-    background-color: blue;
-    transition-property: background-color, transform;
-    transition-duration: 2s;
-    transition-timing-function: linear;
+.linear {
+    transition: 1.5s linear;
 }
 
-.transicionable:hover{
-    background-color: #FABADA;
+.ease-in {
+    transition: 1.5s ease-in;
+}
 
-    /* <length-percentage> values */
-    transform: translateX(200px);
+.ease-out {
+    transition: 1.5s ease-in-out;
+}
+
+.ease {
+    transition: 1.5s ease;
+}
+
+.ease-in-out {
+    transition: 1.5s ease-in-out;
+}
+
+.transicionable {
+    transform: translateX(10.3vw);
 }
