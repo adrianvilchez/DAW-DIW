@@ -55,6 +55,10 @@ item{
 
 }
 
+h1 {
+    text-align: center;
+}
+
 /*
 * CSS for body
 */
@@ -120,6 +124,8 @@ steps{
     grid-auto-rows: auto;
 
     grid-gap: 5%;
+
+    transition: 0.5s;
 }
 
 /*
@@ -136,6 +142,8 @@ steps * {
 
     justify-self: center;
     align-self: center;
+
+    /* visibility: hidden; */
 }
 
 steplabel {

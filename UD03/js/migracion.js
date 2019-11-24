@@ -18,12 +18,16 @@ function hacerNonos(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function startMigration(){
+function startMigration(){
 
     // Fragmentos perdidos
     // ^(;,;)^
 
     
+    barrasProgreso();
+}
+
+async function barrasProgreso() {
     let barrasProgreso = document.querySelectorAll("progress");
 
 
@@ -31,13 +35,20 @@ async function startMigration(){
 
         for (let j = 0; j < 100; j++) {
 
-            let valorProgreso = barrasProgreso[i].value;
+            
             //let valorProgreso = progreso.value;
     
-            barrasProgreso[i].value += j;
-            //progreso.value += j;
+            if (barrasProgreso[i].value < 100) {
+                barrasProgreso[i].value += j;
+                //progreso.value += j;
+    
+                await hacerNonos(100);
+    
+                console.log(barrasProgreso[i].value);
+            }
 
-            await hacerNonos(50);
+            
+            
         }
     }
 }
