@@ -14,6 +14,7 @@ FUNCIONES PERDIDAS
 
 */
 
+// Hacemos un nonito asíncrono para poder utilizarlo en los bucles
 function hacerNonos(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -27,28 +28,17 @@ function startMigration(){
     barrasProgreso();
 }
 
+// Almacenamos las barras de progreso y comprobamos su valor, si es menor
+// a 100 sumamos hasta llegar y hacemos un nonitos
 async function barrasProgreso() {
     let barrasProgreso = document.querySelectorAll("progress");
 
-
     for (let i = 0; i < barrasProgreso.length; i++) {
-
         for (let j = 0; j < 100; j++) {
-
-            
-            //let valorProgreso = progreso.value;
-    
             if (barrasProgreso[i].value < 100) {
                 barrasProgreso[i].value += j;
-                //progreso.value += j;
-    
                 await hacerNonos(100);
-    
-                console.log(barrasProgreso[i].value);
             }
-
-            
-            
         }
     }
 }
