@@ -19,6 +19,25 @@ function hacerNonos(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+// Obtenemos todos los elementos hijos del elemento "steps"
+function obtenerHijicos() {
+    
+    let pasos = document.querySelectorAll("[data-step]");
+
+    pasos.forEach(pasico => {
+        console.log(pasico.dataset.step);
+    });
+    /*let padre = document.querySelector("steps");
+    let hijicos = padre.getElementsByTagName("*");
+
+    var listaHijicos = Array.prototype.slice.call(hijicos);
+
+    listaHijicos.forEach(hijo => {
+        console.log(hijo.dataset);
+        alert(hijo.dataset.step);
+    });*/
+}
+
 function startMigration(){
 
     // Fragmentos perdidos
@@ -26,6 +45,7 @@ function startMigration(){
 
     
     barrasProgreso();
+    obtenerHijicos();
 }
 
 // Almacenamos las barras de progreso y comprobamos su valor, si es menor
