@@ -125,7 +125,7 @@ steps{
 
     grid-gap: 5%;
 
-    transition: 0.5s;
+    transition: 1s;
 }
 
 /*
@@ -145,7 +145,7 @@ steps * {
 
     visibility: hidden;
     opacity: 0; 
-    transition: visibility 0.3s linear,opacity 0.3s linear;
+    transition: visibility 0.8s linear, opacity 0.8s linear;
 }
 
 steplabel {
@@ -175,10 +175,16 @@ progress{
      * ^(;,;)^
      */
     width: 100%;
-    margin: auto;
+    /* margin: auto; */
+  
+    -webkit-appearance: none;
 
+    height: 100%;
+    width: 150%;
+
+    border-radius: 10px;
+    padding: 2px;
 }
-
 
 
 finalmsg{

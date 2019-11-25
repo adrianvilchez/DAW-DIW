@@ -43,13 +43,13 @@ async function barrasProgreso() {
         for (let j = 0; j < 100; j++) {
             if (pasos[i].value < 100) {
                 pasos[i].value += j;
-                await hacerNonos(50);
+                await hacerNonos(30);
             }
         }
     } 
 }
 
-async function init(){
+function init(){
     console.info(" * Init envirnoment ");
 
     // Set click function on button
