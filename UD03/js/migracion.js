@@ -45,7 +45,7 @@ function startMigration(){
 
     
     barrasProgreso();
-    obtenerHijicos();
+    //obtenerHijicos();
 }
 
 // Almacenamos las barras de progreso y comprobamos su valor, si es menor
@@ -53,11 +53,27 @@ function startMigration(){
 async function barrasProgreso() {
     let barrasProgreso = document.querySelectorAll("progress");
 
-    for (let i = 0; i < barrasProgreso.length; i++) {
-        for (let j = 0; j < 100; j++) {
-            if (barrasProgreso[i].value < 100) {
-                barrasProgreso[i].value += j;
-                await hacerNonos(100);
+    let pasos = document.querySelectorAll("[data-step]");
+
+
+    for (let h = 0; h < pasos.length; h++) {
+        
+        
+
+        console.log(pasos[h].dataset.step);
+
+        
+        pasos[h].classList.add("estabaEscondido");
+
+        await hacerNonos(1000);
+
+        for (let i = 0; i < barrasProgreso.length; i++) {
+
+            for (let j = 0; j < 100; j++) {
+                if (barrasProgreso[i].value < 100) {
+                    barrasProgreso[i].value += j;
+                    //await hacerNonos(100);
+                }
             }
         }
     }
