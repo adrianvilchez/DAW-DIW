@@ -144,7 +144,7 @@ steps * {
     align-self: center;
 
     visibility: hidden;
-    opacity: 0;
+    opacity: 0; 
     transition: visibility 0.3s linear,opacity 0.3s linear;
 }
 

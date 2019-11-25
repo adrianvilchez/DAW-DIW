@@ -19,33 +19,12 @@ function hacerNonos(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-// Obtenemos todos los elementos hijos del elemento "steps"
-function obtenerHijicos() {
-    
-    let pasos = document.querySelectorAll("[data-step]");
-
-    pasos.forEach(pasico => {
-        console.log(pasico.dataset.step);
-    });
-    /*let padre = document.querySelector("steps");
-    let hijicos = padre.getElementsByTagName("*");
-
-    var listaHijicos = Array.prototype.slice.call(hijicos);
-
-    listaHijicos.forEach(hijo => {
-        console.log(hijo.dataset);
-        alert(hijo.dataset.step);
-    });*/
-}
-
 function startMigration(){
 
     // Fragmentos perdidos
     // ^(;,;)^
 
-    
     barrasProgreso();
-    //obtenerHijicos();
 }
 
 // Almacenamos las barras de progreso y comprobamos su valor, si es menor
@@ -55,28 +34,19 @@ async function barrasProgreso() {
 
     let pasos = document.querySelectorAll("[data-step]");
 
-
-    for (let h = 0; h < pasos.length; h++) {
+    for (let i = 0; i < pasos.length; i++) {
         
+        pasos[i].classList.add("estabaEscondido");
         
-
-        console.log(pasos[h].dataset.step);
-
-        
-        pasos[h].classList.add("estabaEscondido");
-
         await hacerNonos(1000);
 
-        for (let i = 0; i < barrasProgreso.length; i++) {
-
-            for (let j = 0; j < 100; j++) {
-                if (barrasProgreso[i].value < 100) {
-                    barrasProgreso[i].value += j;
-                    //await hacerNonos(100);
-                }
+        for (let j = 0; j < 100; j++) {
+            if (pasos[i].value < 100) {
+                pasos[i].value += j;
+                await hacerNonos(50);
             }
         }
-    }
+    } 
 }
 
 async function init(){
