@@ -1,1 +1,1 @@
-{"version":3,"sourceRoot":"","sources":["../../scss/busqueda.scss"],"names":[],"mappings":"AAIA;EAEI;EACA,kBANY;;;AAWhB;EACI;EACA;EACA;EACA,OAdS;;;AAmBL;EACI;EACA;EAEA;;AAEJ;EACI;;AAEJ;EACI;;;AAIZ;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA","file":"busqueda.css"}
+{"version":3,"sourceRoot":"","sources":["../../scss/busqueda.scss"],"names":[],"mappings":"AAIA;EAEI;EACA,kBANY;;;AAWhB;EACI;EACA;EACA;EACA,OAdS;;;AAmBL;EACI;EACA;EAEA;;AAEJ;EACI;;AAEJ;EACI","file":"busqueda.css"}

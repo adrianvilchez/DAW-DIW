@@ -22,31 +22,4 @@ body {
   border: 1px solid yellow;
 }
 
-/*
-.resultados{
-    ul {
-        li:nth-child(odd) {
-            list-style:none;
-            width:50vw;
-            @extend %fuente-basica;
-            margin-top: 10px;
-        }
-    }
-}
-
-ul {
-    li:nth-child(odd) {
-        list-style:none;
-        width:50vw;
-        @extend %fuente-basica;
-        margin-top: 10px;
-    }
-    li:nth-child(odd) {
-        border: 1px solid red;
-    }
-    li:nth-child(even) {
-        border: 1px solid yellow;
-    }
-}*/
-
 /*# sourceMappingURL=busqueda.css.map */
