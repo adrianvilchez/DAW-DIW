@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+    <head>
+        <title>NodeJS</title>
+        <meta name="description" content="Nuestro NodeJS">
+        <meta name="keywords" content="html nodejs">
+
+        <script src="js/buscar.js"></script>
+
+        <style>
+            @import url("css/busqueda.css");
+        </style>
+    </head>
+
+    <body>
+        <h1>Monumentos Falleros</h1>
+
+
+        <div class="busqueda">
+            <form id="busquedaform">
+                <label for="seccion">Seccion</label>
+                <select name="seccion" id="seccion">
+                    <option value="Todas" selected>Todas</option>
+                </select>
+
+                <label for="periodo">Año de fundación</label>
+                <input type="text" name="desde" id="desde" placeholder="Desde">
+                <input type="text" name="hasta" id="hasta" placeholder="Hasta">
+
+                <input class="radio" type="radio" name="tipoFalla" id="principal" value="principal" checked>
+                <label for="principal">Principal</label>
+
+                <br>
+
+                <input class="radio" type="radio" name="tipoFalla" id="infantil" value="infantil">
+                <label for="infantil">Infantil</label>
+            </form>
+        </div>
+
+        <div class="resultados">
+        </div>
+    </body>
+</html>

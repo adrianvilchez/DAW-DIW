@@ -1,0 +1,161 @@
+$font-stack: Helvetica,sans-serif;
+$primary-color: white;
+$font-color: black;
+
+body {
+
+    font: 100% $font-stack;
+    background-color: $primary-color;
+
+}
+
+%fuente-basica {
+    // border: 1px solid grey;
+    padding: 10px;
+    // border-radius: 10px;
+    color: $font-color;
+}
+
+h1 {
+  text-align: center;
+}
+
+.busqueda, .resultados {
+  margin: 1%;
+}
+
+#busquedaform {
+
+    font-size: medium;
+
+    :not(.radio) {
+        width: 100%;
+    }
+
+    input, select {
+        cursor: pointer;
+        margin-bottom: 1%;
+
+        border: 1px solid #b7b7b7;
+
+        color: #a8a2a2;
+        border-radius: 3px;
+
+        padding: 0.5%;
+    }
+
+    .radio {
+      margin-bottom: 0;
+    }
+
+    label {
+      margin-bottom: 10px;
+    }
+
+}
+
+.resultados {
+
+    @extend %fuente-basica;
+}
+
+@media only screen and (max-width: 567px) and (min-width: 340px) {
+    .contenedor {
+        grid-template-columns: repeat(1, minmax(100px, 1fr));
+    }
+}
+
+@media only screen and (max-width: 823px) and (min-width: 568px) {
+    .contenedor {
+        grid-template-columns: repeat(2, minmax(100px, 1fr));
+    }
+}
+
+@media only screen and (min-width: 824px) {
+    .contenedor {
+        grid-template-columns: repeat(3, minmax(100px, 1fr));
+    }
+}
+
+.contenedor {
+
+    display: grid;
+
+    //grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto;
+
+    // justify-content: center;
+    // align-content: center;
+
+    grid-gap: 30px;
+
+    :not(p) {
+        border: 1px solid grey;
+
+        border-radius: 5px;
+
+        margin: 0 auto;
+    }
+
+    .falla {
+
+        //display: grid;
+
+        //grid-auto-rows: auto;
+
+        width: 100%;
+        height: 100%;
+        //height: auto;
+
+        padding: 2%;
+
+        img {
+
+            background-size: auto;
+
+            margin-top: 1%;
+            margin-left: 3%;
+
+            width: 92%;
+            //height: 80%;
+            height: auto;
+        }
+
+        p {
+            text-align: center;
+
+            margin-left: 3%;
+
+            width: 94%;
+
+            font-size: small;
+        }
+
+        button {
+            margin-top: 1%;
+            margin-left: 3%;
+            margin-bottom: 1%;
+
+            width: 94%;
+            //height: 10%;
+            height: auto;
+
+            color: white;
+
+            font-size: medium;
+
+            background-color: #33bdef;
+        }
+
+        button:hover {
+          	background:linear-gradient(to bottom, #019ad2 5%, #33bdef 100%);
+          	background-color:#019ad2;
+        }
+
+        button:active {
+          	position:relative;
+          	top:1px;
+        }
+
+    }
+}
