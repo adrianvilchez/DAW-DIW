@@ -5,11 +5,17 @@
         <meta name="description" content="Nuestro NodeJS">
         <meta name="keywords" content="html nodejs">
 
-        <script src="js/buscar.js"></script>
-
         <style>
             @import url("css/busqueda.css");
         </style>
+
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.6.0/proj4.js"></script>
+        <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+
+        <script src="js/buscar.js"></script>
+
     </head>
 
     <body>
@@ -36,6 +42,8 @@
                 <label for="infantil">Infantil</label>
             </form>
         </div>
+
+        <div id="mapa"></div>
 
         <div class="resultados">
         </div>

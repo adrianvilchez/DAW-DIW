@@ -37,6 +37,25 @@ h1 {
   margin-bottom: 10px;
 }
 
+#mapa {
+  position: fixed;
+  width: 80%;
+  height: 60%;
+  top: 30%;
+  left: 30%;
+  margin-top: -5%;
+  /* Negative half of height. */
+  margin-left: -20%;
+  /* Negative half of width. */
+  border: 1px solid black;
+  visibility: hidden;
+}
+
+.popUpMapa * {
+  width: 100px;
+  height: 100px;
+}
+
 @media only screen and (max-width: 567px) and (min-width: 340px) {
   .contenedor {
     grid-template-columns: repeat(1, minmax(100px, 1fr));
@@ -97,6 +116,15 @@ h1 {
 .contenedor .falla button:active {
   position: relative;
   top: 1px;
+}
+
+.star-rating {
+  width: 0;
+  position: relative;
+  display: inline-block;
+  background-image: url(star_0.svg);
+  background-position: 0 0;
+  background-repeat: repeat-x;
 }
 
 /*# sourceMappingURL=busqueda.css.map */

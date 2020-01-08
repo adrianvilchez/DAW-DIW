@@ -54,6 +54,23 @@ h1 {
 
 }
 
+#mapa {
+    position: fixed;
+    width: 80%;
+    height: 60%;
+    top: 30%;
+    left: 30%;
+    margin-top: -5%; /* Negative half of height. */
+    margin-left: -20%; /* Negative half of width. */
+    border: 1px solid black;
+    visibility: hidden;
+}
+
+.popUpMapa *{
+    width: 100px;
+    height: 100px;
+}
+
 .resultados {
 
     @extend %fuente-basica;
@@ -159,3 +176,13 @@ h1 {
 
     }
 }
+
+
+.star-rating {
+    width: 0;
+    position: relative;
+    display:inline-block;
+    background-image: url(star_0.svg);
+    background-position: 0 0;
+    background-repeat: repeat-x;
+  }

@@ -15,10 +15,7 @@ const fetchPromesa = fetch(fallasUrl);
 
 var fallas;
 
-// Esta es la funcion de filtrado para
-// obtener todas las fallas
-
-
+// Funcion de filtrado para obtener las fallas filtradas por la sección
 function filtroFallas(elemento) {
 	//console.log(elemento.properties);
 
@@ -29,111 +26,194 @@ function filtroFallas(elemento) {
 	return elemento.properties.boceto;
 }
 
-/*function filtroDesdeHasta(elemento) {
-	let desde = document.querySelector(`.input[name="desde"]`).value;
-	let hasta = document.querySelector(`.input[name="hasta"]`).value;
-
-	let anyoFundacion = elemento.properties.anyo_fundacion;
-
-	console.log(elemento.properties.anyo_fundacion);
-
-	console.log(elemento.properties.anyo_fundacion_i);
-
-	if (anyoFundacion > desde && anyoFundacion < hasta) {
-		
-		return elemento.properties.boceto, elemento.properties.boceto_i;
-	}
-
-}*/
-
 // filter
 // mapas
 // reduce
 
 let secciones = [];
-let seccionesInfantiles = [];
+let coordFallas = [];
 
 // api ETRS89 / UTM zone 30N to WGS84
 function buscar() {
 
 	eliminarHijos();
+	coordFallas = "";
 
-    // Obtenemos el JSON que esta definido
-    
+	//console.log(fallas.features[1].properties);
+	
 
-    // Cuando se resuelva la promesa
-    /*fetchPromesa.then(response => {
-		// la pasamos a JSON
-		return response.json();
-		// Y entonces
-    }).then(respuesta => {*/
-		// Filtramos los resultados con el filtro definido anteriormente
+	const resultado = fallas.features.filter(filtroFallas);
 
-		console.log(fallas.features[1].properties);
-		const resultado = fallas.features.filter(filtroFallas);
+	// Una vez tenemos el listado filtrado pasamos a crear
+	// cada uno de los <div> que representan
+	let listado = document.createElement("div");
+	listado.classList.add("contenedor");
 
-		// Una vez tenemos el listado filtrado pasamos a crear
-		// cada uno de los <div> que representan
-		let listado = document.createElement("div");
-		listado.classList.add("contenedor");
+	// Por cada uno de ellos
+	resultado.forEach(falla => {
+		// Creamos un <img>
 
-		// Por cada uno de ellos
-		resultado.forEach(falla => {
-			// Creamos un <img>
-			let contenedorFalla = document.createElement("div");
-			contenedorFalla.classList.add("falla");
+		let contenedorFalla = document.createElement("div");
+		contenedorFalla.classList.add("falla");
 
-			let imgFalla = document.createElement("img");
+		let imgFalla = document.createElement("img");
 
-			let radio = document.querySelector(`input[name="tipoFalla"]:checked`);
+		let radio = document.querySelector(`input[name="tipoFalla"]:checked`);
 
-			let desde = document.getElementById("desde");
-			console.log(desde);
-			let hasta = document.querySelector(`.input[name="hasta"]`);
-		/*
-			let anyoFundacion = falla.properties.anyo_fundacion;
+		let desde = document.getElementById("desde");
 		
-		
-			if (desde == null || hasta == null) {
+		let hasta = document.getElementById("hasta");
+	
+		let anyoFundacion = falla.properties.anyo_fundacion;
 
-				desde = 1970;
-				hasta = 2005;
-				if (anyoFundacion > desde.value && anyoFundacion < hasta.value || anyoFundacion > desde || anyoFundacion < hasta) {
+		let principal;
+	
+		if (!secciones.includes(falla.properties.seccion)) secciones.push(falla.properties.seccion);
 
-					imgFalla.src = falla.properties.boceto;
-				}
-			} else {*/
+		secciones.sort();
 
+		// if (radio.value == "principal") {imgFalla.src = falla.properties.boceto;
+		// 	else imgFalla.src = falla.properties.boceto_i;
+
+		if (radio.value == "principal") {
+
+			principal = true;
+
+			comprobarFallas(desde, hasta, imgFalla, falla, anyoFundacion, listado, contenedorFalla, principal);
+
+		} else {
+
+			principal = false;
+
+			comprobarFallas(desde, hasta, imgFalla, falla, anyoFundacion, listado, contenedorFalla, principal);
+		}
+	});
+
+	// Establecemos el listado en la Web
+	document.querySelector(".resultados").innerHTML = "";
+	document.querySelector(".resultados").appendChild(listado);
+}
+
+function comprobarFallas(desde, hasta, imgFalla, falla, anyoFundacion, listado, contenedorFalla, principal, coordFallas) {
+	if (desde.value == '' && hasta.value == '') {
 				
+		cargarFallas(imgFalla, falla, anyoFundacion, listado, contenedorFalla, principal);
+	} else if (anyoFundacion >= desde.value && hasta.value == '') {
 
-				if (radio.value == "principal")  imgFalla.src = falla.properties.boceto;
-				else imgFalla.src = falla.properties.boceto_i;
-			//}
+		cargarFallas(imgFalla, falla, anyoFundacion, listado, contenedorFalla, principal);
+	} else if (anyoFundacion <= hasta.value && desde.value == '') {
 
-			if (!secciones.includes(falla.properties.seccion)) secciones.push(falla.properties.seccion);
+		cargarFallas(imgFalla, falla, anyoFundacion, listado, contenedorFalla, principal);
+	} else if (anyoFundacion >= desde.value && anyoFundacion <= hasta.value) {
 
-			secciones.sort();
-			let nombreFalla = document.createElement("p");
-			nombreFalla.innerText = falla.properties.nombre;
+		cargarFallas(imgFalla, falla, anyoFundacion, listado, contenedorFalla, principal);
+	}
+}
 
-			let ubicacionFalla = document.createElement("button");
-			ubicacionFalla.innerText = "Ubicación";
+function cargarFallas(imgFalla, falla, anyoFundacion, listado, contenedorFalla, principal, coordFallas) {
+	let nombreFalla = document.createElement("p");
+	let ubicacionFalla = document.createElement("button");
+
+	var fallaP = falla.properties.boceto;
+	var fallaI = falla.properties.boceto_i;
+
+	// Imágenes
+	if (principal) {
+		imgFalla.src = falla.properties.boceto;
+
+		ubicacionFalla.onclick = function () { crearMapa(falla.geometry.coordinates, falla.properties.boceto); };
+	} else {
+		imgFalla.src = falla.properties.boceto_i;
+		
+		ubicacionFalla.onclick = function () { crearMapa(falla.geometry.coordinates, falla.properties.boceto_i); };
+	}
+
+	// Nombre y anyo
+	nombreFalla.innerText = falla.properties.nombre + " (" + anyoFundacion + ")";
+
+	// Ubicación y mapa
+	ubicacionFalla.innerText = "Ubicación";
+
+	//ubicacionFalla.onclick = function () { crearMapa(falla.geometry.coordinates, falla.properties.boceto); };
 
 
+	listado.appendChild(contenedorFalla);
+	contenedorFalla.appendChild(imgFalla);
+	contenedorFalla.appendChild(nombreFalla);
+	contenedorFalla.appendChild(ubicacionFalla);
+}
 
-			// Lo anyadimos
-			listado.appendChild(contenedorFalla);
-			contenedorFalla.appendChild(imgFalla);
-			contenedorFalla.appendChild(nombreFalla);
-			contenedorFalla.appendChild(ubicacionFalla);
-		});
+/*
+function eliminarMapa(){
+
+	let div = document.getElementById('map');
+  
+	if (div !== null) {
+  
+	  div.parentNode.removeChild(div);
+  
+	}
+  }
+*/
+
+function crearMapa(coordenadas, urlImagen) {
 
 
+	mapaContainer = document.getElementById('mapa');
+	mapaContainer.style.visibility = 'visible';
 
-		// Establecemos el listado en la Web
-		document.querySelector(".resultados").innerHTML = "";
-		document.querySelector(".resultados").appendChild(listado);
-    //});
+	let coordenadasMapa = traducirCoodenadas(coordenadas);
+
+	var map = L.map('mapa', { closePopupOnClick: false }).setView([coordenadasMapa[0], coordenadasMapa[1]], 16);
+	mapaContainer.addEventListener('focusout', function () {
+		mapaContainer.style.visibility = 'hidden';
+		map.off();
+		map.remove();
+
+		padreMapa = document.getElementById('mapa').parentNode;
+		padreMapa.removeChild(mapaContainer);
+
+		var newMapaContainer = document.createElement("div");
+		newMapaContainer.setAttribute("id", "mapa");
+		padreMapa.appendChild(newMapaContainer);
+	});
+
+
+	let tilerMapUrl = 'https://api.maptiler.com/maps/streets/256/{z}/{x}/{y}.png?key=FeZF25xvZUuP463NS59g';
+	L.tileLayer(tilerMapUrl, {
+		attribution: 'Map data © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>, Imagery © <a href="http://www.kartena.se/">Kartena</a>',
+	}).addTo(map);
+
+
+	/* var imagenFalla = L.icon({
+		iconUrl: urlImagen,
+	
+		iconSize:     [50, 50], // size of the icon
+		iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+		popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+	}); */
+
+	var popup = L.popup()
+	.setContent(
+		`<div class="popUpMapa">
+		 <img src="${urlImagen}">
+		 </div>`)
+	.openPopup();
+
+	L.marker(coordenadasMapa).addTo(map).bindPopup(popup).openPopup();
+
+	mapaContainer.focus();
+}
+
+function traducirCoodenadas(coordenadas) {
+
+	// Cambiar la proyeccion de la referencia espacial 25830 a 4326
+	let firstProjection = '+proj=utm +zone=30 +ellps=GRS80 +units=m +no_defs';
+	let secondProjection = '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs';
+
+	coordenadas = proj4(firstProjection, secondProjection, coordenadas);
+
+	return [coordenadas[1], coordenadas[0]];
 }
 
 // 1 muestra información de las fallas principales, 0 de las infantiles
@@ -151,11 +231,17 @@ function buscarTipo(tipo, propiedad) {
 
 function eliminarHijos() {
 	document.querySelector(".resultados").innerHTML = "";
+
+	var elemento = document.querySelector('map');
+
+	if (elemento != null) {
+		elemento.remove;
+	}
+	
+	
 }
 
 function cargarSecciones() {
-
-	console.log("bla");
 
 	let seccion = document.querySelector("select");
 	secciones.forEach(item => {
@@ -167,9 +253,35 @@ function cargarSecciones() {
 
 }
 
+function traducirCoodenadas(coordFallas) {
+
+	let firstProjection  = '+proj=utm +zone=30 +ellps=GRS80 +units=m +no_defs';
+	let secondProjection = '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs';
+
+	coordenadas = proj4(firstProjection, secondProjection, coordFallas);
+
+	return [coordenadas[1], coordenadas[0]];
+}
+
+/*var starRating = raterJs( {
+	element:document.querySelector("#rater5"), 
+	rateCallback:function rateCallback(rating, done) {
+		this.setRating(rating); 
+		done(); 
+	}, 
+	onHover:function(currentIndex, currentRating) {
+		document.querySelector('.live-rating').textContent = currentIndex; 
+	}, 
+	onLeave:function(currentIndex, currentRating) {
+		document.querySelector('.live-rating').textContent = currentRating; 
+	}
+});*/
+
 function init() {
 
 	const fetchPromesa = fetch(fallasUrl);
+
+	mapaDeFallas = new Map();
 
 	fetchPromesa.then(response => {
 		return response.json();
@@ -191,6 +303,12 @@ function init() {
 	
 	document.querySelector(`input[name="desde"]`).addEventListener("change", buscar);
 	document.querySelector(`input[name="hasta"]`).addEventListener("change", buscar);
+
+	// document.querySelectorAll('button').forEach(item => {
+	// 	item.addEventListener("click", crearMapa(falla.geometry.coordinates));
+	// });
+
+	//window.addEventListener("load", starRating, false); 
 	
 }
 
