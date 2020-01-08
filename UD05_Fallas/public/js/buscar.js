@@ -39,7 +39,7 @@ function buscar() {
 	eliminarHijos();
 	coordFallas = "";
 
-	//console.log(fallas.features[1].properties);
+	console.log(fallas.features[1].properties);
 	
 
 	const resultado = fallas.features.filter(filtroFallas);
@@ -113,6 +113,7 @@ function comprobarFallas(desde, hasta, imgFalla, falla, anyoFundacion, listado, 
 function cargarFallas(imgFalla, falla, anyoFundacion, listado, contenedorFalla, principal, coordFallas) {
 	let nombreFalla = document.createElement("p");
 	let ubicacionFalla = document.createElement("button");
+	let bota = document.createElement("button");
 
 	var fallaP = falla.properties.boceto;
 	var fallaI = falla.properties.boceto_i;
@@ -133,6 +134,25 @@ function cargarFallas(imgFalla, falla, anyoFundacion, listado, contenedorFalla, 
 
 	// Ubicación y mapa
 	ubicacionFalla.innerText = "Ubicación";
+	bota.innerText = "bota";
+
+	bota.onclick = function() {
+
+		var datos ={
+			idFalla: falla.properties.id,
+			ip: "127.0.0.1",
+			puntuacion: 5
+		};
+
+		fetch('/puntuaciones', {
+			method: 'POST',
+			body: JSON.stringify(datos),
+
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		 });
+	};
 
 	//ubicacionFalla.onclick = function () { crearMapa(falla.geometry.coordinates, falla.properties.boceto); };
 
@@ -141,6 +161,7 @@ function cargarFallas(imgFalla, falla, anyoFundacion, listado, contenedorFalla, 
 	contenedorFalla.appendChild(imgFalla);
 	contenedorFalla.appendChild(nombreFalla);
 	contenedorFalla.appendChild(ubicacionFalla);
+	contenedorFalla.appendChild(bota);
 }
 
 function crearMapa(coordenadas, urlImagen) {
