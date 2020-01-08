@@ -143,19 +143,6 @@ function cargarFallas(imgFalla, falla, anyoFundacion, listado, contenedorFalla, 
 	contenedorFalla.appendChild(ubicacionFalla);
 }
 
-/*
-function eliminarMapa(){
-
-	let div = document.getElementById('map');
-  
-	if (div !== null) {
-  
-	  div.parentNode.removeChild(div);
-  
-	}
-  }
-*/
-
 function crearMapa(coordenadas, urlImagen) {
 
 
@@ -251,16 +238,6 @@ function cargarSecciones() {
 		seccion.add(option);
 	});
 
-}
-
-function traducirCoodenadas(coordFallas) {
-
-	let firstProjection  = '+proj=utm +zone=30 +ellps=GRS80 +units=m +no_defs';
-	let secondProjection = '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs';
-
-	coordenadas = proj4(firstProjection, secondProjection, coordFallas);
-
-	return [coordenadas[1], coordenadas[0]];
 }
 
 /*var starRating = raterJs( {
