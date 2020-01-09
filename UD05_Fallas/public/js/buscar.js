@@ -310,20 +310,6 @@ function cargarSecciones() {
 
 }
 
-/*var starRating = raterJs( {
-	element:document.querySelector("#rater5"), 
-	rateCallback:function rateCallback(rating, done) {
-		this.setRating(rating); 
-		done(); 
-	}, 
-	onHover:function(currentIndex, currentRating) {
-		document.querySelector('.live-rating').textContent = currentIndex; 
-	}, 
-	onLeave:function(currentIndex, currentRating) {
-		document.querySelector('.live-rating').textContent = currentRating; 
-	}
-});*/
-
 function init() {
 
 	const fetchPromesa = fetch(fallasUrl);
