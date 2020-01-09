@@ -113,10 +113,10 @@ function comprobarFallas(desde, hasta, imgFalla, falla, anyoFundacion, listado, 
 function cargarFallas(imgFalla, falla, anyoFundacion, listado, contenedorFalla, principal, coordFallas) {
 	let nombreFalla = document.createElement("p");
 	let ubicacionFalla = document.createElement("button");
-	let bota = document.createElement("button");
+	//let bota = document.createElement("button");
 
-	var fallaP = falla.properties.boceto;
-	var fallaI = falla.properties.boceto_i;
+	let estrellasPuntuacion = document.createElement("div");
+	estrellasPuntuacion.classList.add("puntuacion");
 
 	// Imágenes
 	if (principal) {
@@ -134,9 +134,65 @@ function cargarFallas(imgFalla, falla, anyoFundacion, listado, contenedorFalla, 
 
 	// Ubicación y mapa
 	ubicacionFalla.innerText = "Ubicación";
-	bota.innerText = "bota";
 
-	bota.onclick = function() {
+	listado.appendChild(contenedorFalla);
+	contenedorFalla.appendChild(imgFalla);
+	contenedorFalla.appendChild(nombreFalla);
+	contenedorFalla.appendChild(ubicacionFalla);
+	contenedorFalla.appendChild(estrellasPuntuacion);
+
+
+	let cinco = document.createElement("span");
+	cinco.classList = "id-" + falla.properties.id;
+	cinco.title = "5";
+	cinco.value = "5";
+	cinco.innerText = "☆";
+
+	let cuatro = document.createElement("span");
+	cuatro.classList = "id-" + falla.properties.id;
+	cuatro.title = "4";
+	cuatro.value = "4";
+	cuatro.innerText = "☆";
+
+	let tres = document.createElement("span");
+	tres.classList = "id-" + falla.properties.id;
+	tres.title = "3";
+	tres.value = "3";
+	tres.innerText = "☆";
+
+	let dos = document.createElement("span");
+	dos.classList = "id-" + falla.properties.id;
+	dos.title = "2";
+	dos.value = "2";
+	dos.innerText = "☆";
+	
+	let uno = document.createElement("span");
+	uno.classList = "id-" + falla.properties.id;
+	uno.title = "1";
+	uno.value = "1";
+	uno.innerText = "☆";
+
+	estrellasPuntuacion.appendChild(cinco);
+	estrellasPuntuacion.appendChild(cuatro);
+	estrellasPuntuacion.appendChild(tres);
+	estrellasPuntuacion.appendChild(dos);
+	estrellasPuntuacion.appendChild(uno);
+
+	estrellasPuntuacion.onclick = function(event) {
+
+		if (event.target.tagName.toLowerCase() != 'span' && event.target.getElementById == falla.properties.id) return;
+		
+		if (event.target.getElementById == falla.properties.id && event.target.classList.contains('puntuado')) {
+
+			event.target.classList.remove('puntuado');
+		} else {
+
+			Array.prototype.forEach.call(document.getElementsByClassName("id-" + falla.properties.id), function(el) {
+				el.classList.remove('puntuado');
+			});
+
+			event.target.classList.add('puntuado');
+		}
 
 		var datos ={
 			idFalla: falla.properties.id,
@@ -152,16 +208,9 @@ function cargarFallas(imgFalla, falla, anyoFundacion, listado, contenedorFalla, 
 				'Content-Type': 'application/json'
 			}
 		 });
+		 
 	};
 
-	//ubicacionFalla.onclick = function () { crearMapa(falla.geometry.coordinates, falla.properties.boceto); };
-
-
-	listado.appendChild(contenedorFalla);
-	contenedorFalla.appendChild(imgFalla);
-	contenedorFalla.appendChild(nombreFalla);
-	contenedorFalla.appendChild(ubicacionFalla);
-	contenedorFalla.appendChild(bota);
 }
 
 function crearMapa(coordenadas, urlImagen) {
@@ -301,12 +350,6 @@ function init() {
 	
 	document.querySelector(`input[name="desde"]`).addEventListener("change", buscar);
 	document.querySelector(`input[name="hasta"]`).addEventListener("change", buscar);
-
-	// document.querySelectorAll('button').forEach(item => {
-	// 	item.addEventListener("click", crearMapa(falla.geometry.coordinates));
-	// });
-
-	//window.addEventListener("load", starRating, false); 
 	
 }
 
