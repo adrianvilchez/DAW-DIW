@@ -37,11 +37,11 @@ function filtroFallas(elemento) {
 let secciones = [];
 let coordFallas = [];
 
-var datos = {
+/*var datos = {
 	idFalla: "",
 	ip: "",
 	puntuacion: ""
-};
+};*/
 
 // api ETRS89 / UTM zone 30N to WGS84
 function buscar() {
@@ -63,6 +63,8 @@ function buscar() {
 	resultado.forEach(falla => {
 		// Creamos un <img>
 
+
+		
 		let contenedorFalla = document.createElement("div");
 		contenedorFalla.classList.add("falla");
 
@@ -119,6 +121,13 @@ function comprobarFallas(desde, hasta, imgFalla, falla, anyoFundacion, listado, 
 }
 
 function cargarFallas(imgFalla, falla, anyoFundacion, listado, contenedorFalla, principal, coordFallas) {
+
+	var datos = {
+		idFalla: "",
+		ip: "",
+		puntuacion: ""
+	};
+
 	let nombreFalla = document.createElement("p");
 	let ubicacionFalla = document.createElement("button");
 	//let bota = document.createElement("button");
@@ -196,10 +205,10 @@ function cargarFallas(imgFalla, falla, anyoFundacion, listado, contenedorFalla, 
 			//console.log("La puntuacion de dicha falla es: ");
 			console.log("puntuacion: " + data.puntuacion + ", falla: " + datos.idFalla + ", ip: " + datos.ip);
 
-			//if (obtenerEstrellas(datos) != "" ) {
+			if (obtenerEstrellas(datos) != "" ) {
 				let estrellas =  data.puntuacion;
 			
-				datos.puntuacion = estrellas;
+				//datos.puntuacion = estrellas;
 			
 				try {
 					let estrellaPuntuada = document.querySelector(`.id-${ falla.properties.id }:nth-child(${estrellas}n)`);
@@ -211,7 +220,7 @@ function cargarFallas(imgFalla, falla, anyoFundacion, listado, contenedorFalla, 
 				
 				
 				
-			//}
+			}
 		})
 	});
 
