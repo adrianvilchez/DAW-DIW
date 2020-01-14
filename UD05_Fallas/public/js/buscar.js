@@ -11,9 +11,13 @@ npm run dev
 
 const fallasUrl = "http://mapas.valencia.es/lanzadera/opendata/Monumentos_falleros/JSON";
 
+const IpUrl = "https://api.ipify.org?format=json";
+
 const fetchPromesa = fetch(fallasUrl);
 
 var fallas;
+
+var ipPublica;
 
 // Funcion de filtrado para obtener las fallas filtradas por la sección
 function filtroFallas(elemento) {
@@ -32,6 +36,12 @@ function filtroFallas(elemento) {
 
 let secciones = [];
 let coordFallas = [];
+
+var datos = {
+	idFalla: "",
+	ip: "",
+	puntuacion: ""
+};
 
 // api ETRS89 / UTM zone 30N to WGS84
 function buscar() {
@@ -72,9 +82,6 @@ function buscar() {
 
 		secciones.sort();
 
-		// if (radio.value == "principal") {imgFalla.src = falla.properties.boceto;
-		// 	else imgFalla.src = falla.properties.boceto_i;
-
 		if (radio.value == "principal") {
 
 			principal = true;
@@ -96,8 +103,9 @@ function buscar() {
 
 function comprobarFallas(desde, hasta, imgFalla, falla, anyoFundacion, listado, contenedorFalla, principal, coordFallas) {
 	if (desde.value == '' && hasta.value == '') {
-				
+		
 		cargarFallas(imgFalla, falla, anyoFundacion, listado, contenedorFalla, principal);
+
 	} else if (anyoFundacion >= desde.value && hasta.value == '') {
 
 		cargarFallas(imgFalla, falla, anyoFundacion, listado, contenedorFalla, principal);
@@ -145,31 +153,31 @@ function cargarFallas(imgFalla, falla, anyoFundacion, listado, contenedorFalla, 
 	let cinco = document.createElement("span");
 	cinco.classList = "id-" + falla.properties.id;
 	cinco.title = "5";
-	cinco.value = "5";
+	cinco.dataset.valor = 5;
 	cinco.innerText = "☆";
 
 	let cuatro = document.createElement("span");
 	cuatro.classList = "id-" + falla.properties.id;
 	cuatro.title = "4";
-	cuatro.value = "4";
+	cuatro.dataset.valor = 4;
 	cuatro.innerText = "☆";
 
 	let tres = document.createElement("span");
 	tres.classList = "id-" + falla.properties.id;
 	tres.title = "3";
-	tres.value = "3";
+	tres.dataset.valor = 3;
 	tres.innerText = "☆";
 
 	let dos = document.createElement("span");
 	dos.classList = "id-" + falla.properties.id;
 	dos.title = "2";
-	dos.value = "2";
+	dos.dataset.valor = 2;
 	dos.innerText = "☆";
 	
 	let uno = document.createElement("span");
 	uno.classList = "id-" + falla.properties.id;
 	uno.title = "1";
-	uno.value = "1";
+	uno.dataset.valor = 1;
 	uno.innerText = "☆";
 
 	estrellasPuntuacion.appendChild(cinco);
@@ -178,11 +186,54 @@ function cargarFallas(imgFalla, falla, anyoFundacion, listado, contenedorFalla, 
 	estrellasPuntuacion.appendChild(dos);
 	estrellasPuntuacion.appendChild(uno);
 
+	datos.idFalla = falla.properties.id;
+	datos.ip = ipPublica;
+
+	fetch('/puntuaciones/' + datos.idFalla + '/' + datos.ip, {
+		method: 'GET'
+		}).then(res => {
+			res.json().then(function(data) {
+			//console.log("La puntuacion de dicha falla es: ");
+			console.log("puntuacion: " + data.puntuacion + ", falla: " + datos.idFalla + ", ip: " + datos.ip);
+
+			//if (obtenerEstrellas(datos) != "" ) {
+				let estrellas =  data.puntuacion;
+			
+				datos.puntuacion = estrellas;
+			
+				try {
+					let estrellaPuntuada = document.querySelector(`.id-${ falla.properties.id }:nth-child(${estrellas}n)`);
+					estrellaPuntuada.classList.add("puntuado");
+				} catch (error) {
+					console.log("no se pudo obtener puntuacion");
+					
+				}
+				
+				
+				
+			//}
+		})
+	});
+
+	/*if (obtenerEstrellas(datos) != "" ) {
+		let estrellas = obtenerEstrellas(datos);
+	
+		datos.puntuacion = estrellas;
+	
+		let estrellaPuntuada = document.querySelector(`.id-${ falla.properties.id }:nth-child(${estrellas}n)`);
+		
+		estrellaPuntuada.classList.add("puntuado");
+	}*/
+
 	estrellasPuntuacion.onclick = function(event) {
 
-		if (event.target.tagName.toLowerCase() != 'span' && event.target.getElementById == falla.properties.id) return;
+		let puntuacion;
+
+		console.log("la ip es: " + ipPublica);
 		
-		if (event.target.getElementById == falla.properties.id && event.target.classList.contains('puntuado')) {
+		if (event.target.tagName.toLowerCase() != 'span' && event.target.contains(falla.properties.id)) return;
+	
+		if (event.target.classList.contains(falla.properties.id) && event.target.classList.contains('puntuado')) {
 
 			event.target.classList.remove('puntuado');
 		} else {
@@ -191,27 +242,81 @@ function cargarFallas(imgFalla, falla, anyoFundacion, listado, contenedorFalla, 
 				el.classList.remove('puntuado');
 			});
 
-			event.target.classList.add('puntuado');
-		}
+			event.target.classList.add('puntuado');	
 
-		var datos ={
-			idFalla: falla.properties.id,
-			ip: "127.0.0.1",
-			puntuacion: 5
-		};
+			datos.puntuacion = event.target.dataset.valor;
 
-		fetch('/puntuaciones', {
-			method: 'POST',
-			body: JSON.stringify(datos),
+			console.log("puntuacion: " + datos.puntuacion);
 
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		 });
-		 
+			fetch('/puntuaciones', {
+				method: 'DELETE',
+				body: JSON.stringify(datos),
+	
+				headers: {
+					'Content-Type': 'application/json'
+				}}).then(res => {
+				fetch('/puntuaciones', {
+					method: 'POST',
+					body: JSON.stringify(datos),
+		
+					headers: {
+						'Content-Type': 'application/json'
+					}}).then(res => {
+						res.json().then(function(data) {
+						console.log(data.puntuacion);
+					})
+				});
+			});
+		}	
 	};
 
+
 }
+
+function obtenerEstrellas(datos) {
+	fetch('/puntuaciones/' + datos.idFalla + '/' + datos.ip, {
+		method: 'GET'
+		}).then(res => {
+			res.json().then(function(data) {
+			//console.log("La puntuacion de dicha falla es: ");
+			console.log("puntuacion: " + data[0].puntuacion + ", falla: " + datos.idFalla + ", ip: " + datos.ip);
+			return data[0].puntuacion;
+		})
+	});
+}
+
+function rellenarEstrellas(falla, datos) {
+
+	if (obtenerEstrellas(datos) != "" ) {
+		let estrellas = obtenerEstrellas(datos);
+	
+		datos.puntuacion = estrellas;
+	
+		let estrellaPuntuada = document.querySelector(`.id-${ falla.properties.id }:nth-child(${estrellas}n)`);
+		
+		estrellaPuntuada.classList.add("puntuado");
+	}
+}
+
+function obtenerIp() {
+	
+	var ip;
+
+	var xhttp = new XMLHttpRequest();
+
+	xhttp.onreadystatechange = function() {
+
+		if (this.readyState == 4 && this.status == 200) {
+
+			ip = JSON.parse(this.responseText);
+		}
+	};
+
+	xhttp.open("GET", IpUrl, false);
+	xhttp.send();
+
+	return ip.ip;
+  }
 
 function crearMapa(coordenadas, urlImagen) {
 
@@ -310,7 +415,11 @@ function cargarSecciones() {
 
 }
 
-function init() {
+async function init() {
+
+	ipPublica = await obtenerIp();
+
+	console.log(ipPublica);
 
 	const fetchPromesa = fetch(fallasUrl);
 
