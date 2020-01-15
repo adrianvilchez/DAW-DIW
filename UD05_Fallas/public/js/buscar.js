@@ -203,36 +203,34 @@ function cargarFallas(imgFalla, falla, anyoFundacion, listado, contenedorFalla, 
 		}).then(res => {
 			res.json().then(function(data) {
 			//console.log("La puntuacion de dicha falla es: ");
-			console.log("puntuacion: " + data.puntuacion + ", falla: " + datos.idFalla + ", ip: " + datos.ip);
 
-			if (obtenerEstrellas(datos) != "" ) {
-				let estrellas =  data.puntuacion;
-			
-				//datos.puntuacion = estrellas;
-			
-				try {
-					let estrellaPuntuada = document.querySelector(`.id-${ falla.properties.id }:nth-child(${estrellas}n)`);
-					estrellaPuntuada.classList.add("puntuado");
-				} catch (error) {
-					console.log("no se pudo obtener puntuacion");
-					
-				}
-				
-				
-				
+			if (data.puntuacion != null) {
+				console.log("puntuacion: " + data.puntuacion + ", falla: " + datos.idFalla + ", ip: " + datos.ip);
 			}
+
+			fetch('/puntuaciones/' + datos.idFalla + '/' + datos.ip, {
+				method: 'GET'
+				}).then(res => {
+					res.json().then(function(data) {
+
+					if (data[0].puntuacion != null) {
+						console.log("puntuacion: " + data[0].puntuacion + ", falla: " + datos.idFalla + ", ip: " + datos.ip);
+
+						try {
+							let estrellaPuntuada = document.querySelector(`.id-${ falla.properties.id }:nth-child(${6 - data[0].puntuacion})`);
+							estrellaPuntuada.classList.add("puntuado");
+							console.log("puntuacion: " + data[0].puntuacion);
+							
+						} catch (error) {
+							console.log("no se pudo obtener puntuacion");
+							
+						}
+					}
+				})
+			});
+			
 		})
 	});
-
-	/*if (obtenerEstrellas(datos) != "" ) {
-		let estrellas = obtenerEstrellas(datos);
-	
-		datos.puntuacion = estrellas;
-	
-		let estrellaPuntuada = document.querySelector(`.id-${ falla.properties.id }:nth-child(${estrellas}n)`);
-		
-		estrellaPuntuada.classList.add("puntuado");
-	}*/
 
 	estrellasPuntuacion.onclick = function(event) {
 
@@ -288,7 +286,10 @@ function obtenerEstrellas(datos) {
 		}).then(res => {
 			res.json().then(function(data) {
 			//console.log("La puntuacion de dicha falla es: ");
-			console.log("puntuacion: " + data[0].puntuacion + ", falla: " + datos.idFalla + ", ip: " + datos.ip);
+			if (data[0].puntuacion != null) {
+				console.log("puntuacion: " + data[0].puntuacion + ", falla: " + datos.idFalla + ", ip: " + datos.ip);
+			}
+			
 			return data[0].puntuacion;
 		})
 	});
