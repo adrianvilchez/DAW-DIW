@@ -40,6 +40,7 @@ function comprobarTipoEstadistica() {
     let estadistica = document.querySelector("#estadistica").value;
 
     limpiarLienzo();
+    sumarCampos();
 
     switch (estadistica) {
         case "tarta":
@@ -157,7 +158,8 @@ function dibujarEstadisticaMontanya() {
 }
 
 function sumarCampos() {
-    
+
+    sumaTotal = 0;
     valores.forEach(valor => {
         sumaTotal += parseInt(valor.value);
     });
