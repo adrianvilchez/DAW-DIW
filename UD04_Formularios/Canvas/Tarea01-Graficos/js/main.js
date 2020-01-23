@@ -17,10 +17,17 @@ const canvas = document.querySelector("canvas");
 // contexto -> ctx
 var ctx = canvas.getContext("2d");
 
+ctx.font = "25px Arial";
+ctx.lineWidth = 8;
+
 let sumaTotal = 0;
 
 let valores = document.querySelectorAll("input[class='right']");
 let claves = document.querySelectorAll("input[class='left']");
+
+let ancho = canvas.width / valores.length;
+let alto = canvas.height;
+
 
 function buildGrafico() {
     console.info(" * Construyendo grafico ");
@@ -36,17 +43,13 @@ function comprobarTipoEstadistica() {
 
     switch (estadistica) {
         case "tarta":
-            dibujarEstadisticaTarta();
-            console.log("tarta");
-            
+            dibujarEstadisticaTarta();     
             break;
         case "rectangulos":
             dibujarEstadisticaRectangulo();
-            console.log("rectangulo");
             break;
         case "montanya":
             dibujarEstadisticaMontanya();
-            console.log("montaña");
             break;
     
         default:
@@ -76,6 +79,7 @@ function rellenarFormulario() {
 }
 
 function dibujarEstadisticaTarta() {
+    
     ctx.lineWidth = 1;
 
     //Empezamos arriba del todo, en vertical
@@ -87,15 +91,14 @@ function dibujarEstadisticaTarta() {
         ctx.beginPath();
         ctx.moveTo(200, 200);
         
-        finAngulo = inicioAngulo + (parseInt(valores[i].value) / sumaTotal * 2 * Math.PI);
+        finAngulo = inicioAngulo + (parseInt(valores[i].value) / sumaTotal) * 2 * Math.PI;
 
         ctx.fillStyle = colores[i].color;
         ctx.arc(200, 200, 100, inicioAngulo, finAngulo);
         ctx.moveTo(200, 200);
-        ctx.fillText(claves[i].value, 30 * inicioAngulo / 4, 200 *  finAngulo / 4);
-        //ctx.strokeText("Hello World", 200, 200); 
-        ctx.moveTo(200, 200);
-        ctx.stroke();
+        //ctx.fillText(claves[i].value, 30 * inicioAngulo / 4, 200 *  finAngulo / 4);
+        ctx.fillStyle = colores[i].color;
+        ctx.fillText(claves[i].value, ancho * i, alto);
         ctx.fill();
 
         inicioAngulo = finAngulo;
@@ -108,8 +111,6 @@ function dibujarEstadisticaRectangulo() {
 
     let inicioX = 0;
     let porcentaje = 0;
-    let ancho = canvas.width / valores.length;
-    let alto = canvas.height - 100;
 
     for (let i = 0; i < valores.length; i++) {
 
@@ -132,7 +133,27 @@ function dibujarEstadisticaRectangulo() {
 }
 
 function dibujarEstadisticaMontanya() {
-    
+
+    let altoMontanya = alto / sumaTotal;
+    let inicioX = 0;
+    let inicioY = alto - valores[0].value * altoMontanya;
+
+    for (let i = 0; i < valores.length; i++) {
+
+        let dibujarLinea = alto - altoMontanya * valores[i].value;
+
+        ctx.beginPath();
+        ctx.moveTo(inicioX, inicioY);
+        ctx.strokeStyle = colores[i].color;
+        ctx.lineTo(inicioX + ancho, dibujarLinea);
+        ctx.stroke();
+
+        inicioX += ancho;
+        inicioY = dibujarLinea;
+
+        ctx.fillStyle = colores[i].color;
+        ctx.fillText(claves[i].value, ancho * i, alto);
+    }
 }
 
 function sumarCampos() {
