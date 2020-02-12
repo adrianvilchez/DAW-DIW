@@ -2,10 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-let pokemones = [];
-
-let resultados = [];
-
 class PokeApi extends React.Component {
   constructor(props) {
     super(props);
@@ -16,67 +12,43 @@ class PokeApi extends React.Component {
     };
   }
   
+  datosPokemon(url) {
+     return fetch(url)
+     .then(res => res.json())
+     .then(resp => {
+       return resp;
+     })
+  }
+
   componentDidMount() {
 
-    const URL = "https://pokeapi.co/api/v2/pokemon-form";
+    //const URL = "https://pokeapi.co/api/v2/pokemon-form/?limit=980";
+    const URL = "https://pokeapi.co/api/v2/pokemon-form/";
     fetch(URL)
       .then(res => res.json())
       .then(
         (result) => {
 
-          /*this.setState({
-            isLoaded: true,
+          let pk = [];
 
-            // Almacenamos el contenido de cada pokemon (nombre y url) en pokemons
-            pokemons: result.results
-          });*/
+          result.results.forEach(poke => {
+            pk.push(this.datosPokemon(poke.url));
+          });
 
-          let lista = result.results;
+          Promise.all(pk).then(resp => {
+
+            console.log(resp[0]);
             
-          lista.forEach(item => {
-            pokemones.push(item.url);
-          });
-
-          pokemones.forEach(poke => {
+            this.setState({
+              isLoaded: true,
+  
+              // Almacenamos el contenido de cada pokemon (nombre y url) en pokemons
+                pokemons: resp
+            })
             
-            fetch(poke)
-            .then(res => res.json())
-            .then(
-              (result) => {
-
-                
-                resultados.push(result);
-                
-                console.log(result.name);
-                
-                console.log(result.sprites.front_default);
-                
-              },
-            )
-          });
-
-          
-        },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
-        (error) => {
-          this.setState({
-            isLoaded: true,
-            error
-          });
-        } 
+          })
+        }
       )
-
-      this.setState({
-        isLoaded: true,
-
-        // Almacenamos el contenido de cada pokemon (nombre y url) en pokemons
-        pokemons: resultados
-      });
-
-      
-      
   }
 
   render() {
@@ -87,24 +59,52 @@ class PokeApi extends React.Component {
       return <div>Cargando...</div>;
     } else {
       return (
-        <ul>
+        <div id='pokemons'>
           {pokemons.map(pokemon => (
-            <li key={pokemon.name}>
-              {pokemon.name}
-              <li key={pokemon.url}>
-                {pokemon.url}
-              </li>
-            </li>
+            <div id={pokemon.name} class ='pokemon' key={pokemon.name}>
+              <img src={pokemon.sprites.front_default} alt={pokemon.name} />
+              <p>{pokemon.name}</p>
+            </div>
           ))}
-        </ul>
+        </div>
       );
     }
   }
 }
 
+class Cabecera extends React.Component {
+  render() {
+     return (
+      <header>
+        sdsad
+      </header>
+     );
+  }
+}
+
+class Pie extends React.Component {
+  render() {
+     return (
+      <footer>
+        sdsad
+      </footer>
+     );
+  }
+}
+
+class App extends React.Component {
+  render() {
+     return (
+      <div>
+        <Cabecera/>
+        <PokeApi/>
+        <Pie/>
+      </div>
+     );
+  }
+}
 // ========================================
 
 ReactDOM.render(
-  <PokeApi />,
-  document.getElementById('root')
+  <App />, document.getElementById('root')
 );

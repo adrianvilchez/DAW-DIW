@@ -1,12 +1,20 @@
+html, body, #root {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   font: 14px "Century Gothic", Futura, sans-serif;
-  margin: 20px;
 }
 
-ul {
-  padding-left: 30px;
+#pokemons {
+  margin: 0 auto;
+  width: 100%;
+  background: rgba(89,89,89,1);
 }
 
-li {
-  list-style: none;
+.pokemon {
+  margin: 0 auto;
+  width: 10%;
 }
