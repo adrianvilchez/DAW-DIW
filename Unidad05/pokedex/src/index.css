@@ -37,6 +37,7 @@ nav {
   border-radius: 20px;
 }
 
+
 #pokemons {
   display: grid;
 
@@ -44,31 +45,97 @@ nav {
   
   margin: 0 auto;
   width: 100%;
-  background: rgba(89,89,89,1);
+  background-color: rgb(90, 83, 83, 0.8);
+}
+
+
+.pokemon {
+
+  display: block;
+  margin: 5% auto;
+
+  background-repeat: no-repeat;
+  background-size: 60%;
+  background-position-x: 85%;
+  background-position-y: 0%;
+
+  width: 90%;
+  border-radius: 50px;
+  border: 2px solid white;
+  text-align: center;  
 }
 
 .tipos {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+}
+
+.habilidades {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+
   
 }
 
+p {
+  color: white;
+}
+
+.nombre, .peso {
+  background: red;
+  border: 2px solid white;
+  color: white;
+
+  width: 20%;
+  text-align: center;
+
+  border-radius: 20px;
+  margin: 0 auto;
+  margin-bottom: 2px;
+}
+
+.habilidad {
+  background: red;
+  border: 2px solid white;
+  color: white;
+  padding: 2%;
+  border-radius: 50px;
+  margin: 0 auto;
+  margin-bottom: 2px;
+
+  width: 70%;
+}
+
+.tipo {
+  background-image: none;
+  border: 2px solid white;
+  width: 70%;
+  border-radius: 50px;
+  margin: 0 auto;
+  margin-bottom: 2px;
+}
+
 .bug {
-  background-color: var(--type-bug-color);
+  background-color: rgb(59, 153, 80);
 }
 
 .dark {
-  background-color: var(--type-dark-color);
+  background-color: rgb(4, 7, 6);
+  color: white;
 }
 
 .dragon {
-  background-color: var(--type-dragon-color);
+  background-color: rgb(84, 158, 169);
 }
 
 .electric {
-  background-color: var(--type-electric-color);
+  background-color: rgb(251, 251, 114);
 }
 
 .fairy {
-  background-color: var(--type-fairy-color);
+  background-color: rgb(234, 19, 105);
 }
 
 .fighting {
@@ -76,51 +143,51 @@ nav {
 }
 
 .fire {
-  background-color: var(--type-fire-color);
+  background: rgb(253, 76, 90);
 }
 
 .flying {
-  background-color: var(--type-flying-color);
+  background-color: rgb(147, 178, 199);
 }
 
 .ghost {
-  background-color: var(--type-ghost-color);
+  background-color: rgb(144, 103, 144);
 }
 
 .grass {
-  background-color: var(--type-grass-color);
+  background-color: rgb(39, 203, 79);
 }
 
 .ground {
-  background-color: var(--type-ground-color);
+  background-color: rgb(110, 73, 31);
 }
 
 .ice {
-  background-color: var(--type-ice-color);
+  background-color: rgb(216, 239, 251);
 }
 
 .normal {
-  background-color: var(--type-normal-color);
+  background-color: rgb(202, 152, 167);
 }
 
 .poison {
-  background-color: var(--type-poison-color);
+  background-color: rgb(155, 105, 217);
 }
 
 .psychic {
-  background-color: var(--type-psychic-color);
+  background-color: rgb(248, 28, 145);
 }
 
 .rock {
-  background-color: var(--type-rock-color);
+  background-color: rgb(139, 62, 33);
 }
 
 .steel {
-  background-color: var(--type-steel-color);
+  background-color: rgb(66, 189, 148);
 }
 
 .water {
-  background-color: var(--type-water-color);
+  background-color: rgb(134, 168, 252);
 }
 
 root {
@@ -144,27 +211,6 @@ root {
   --type-water-color: rgb(134, 168, 252);
 }
 
-.fire, .water, .poison, 
-
-.pokemon {
-
-  display: block;
-  margin: 5% auto;
-
-  background-image: url("imagenes/pokedex.png");
-  background-repeat: no-repeat;
-  background-size: 60%;
-  background-position-x: 85%;
-  background-position-y: 0%;
-
-
-  width: 50%;
-  border-radius: 200px;
-  border: 1px solid yellow;
-  text-align: center;
-
-  
-}
 
 .ventanaPokemon {
 

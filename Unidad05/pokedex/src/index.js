@@ -28,6 +28,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
+import classnames from 'classnames';
+
 class PokeApi extends React.Component {
   constructor(props) {
     super(props);
@@ -139,7 +141,7 @@ class PokeApi extends React.Component {
   render() {
 
     
-    const { error, isLoaded, pokemonsFiltrados, estaBuscando, habilidades } = this.state;
+    const { error, isLoaded, pokemonsFiltrados, estaBuscando } = this.state;
     if (error) {
       return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
@@ -150,7 +152,7 @@ class PokeApi extends React.Component {
         <Cabecera/>
         <Menu onChange={this.datosInput} />
 
-        <div>Cargando Pokemons...</div>
+        <div className="cargando">Cargando Pokemons...</div>
         
         {this.state.estaBuscando = true}
         <Pie/>
@@ -163,13 +165,26 @@ class PokeApi extends React.Component {
         <Menu onChange={this.datosInput} />
         <div id='pokemons'>
           {pokemonsFiltrados.map(pokemon => (
-            <div data-id={pokemon.id} id={pokemon.name} className='pokemon' onClick={(i) => this.handleClick(pokemon.id)} key={pokemon.name}>
-              <img src={pokemon.sprites.front_default} alt={pokemon.name} />
-              <p>{pokemon.name}</p>
+
+            <div data-id={pokemon.id} id={pokemon.name} className='pokemon' onDoubleClick={(i) => this.handleClick(pokemon.id)} key={pokemon.id}>
+              
+              <IdPokemon id = {pokemon.id}/>
+              <hr />
+
+              <ImagenPokemon nombre = {pokemon.name} imagen = {pokemon.sprites.front_default}/>
+
+              <hr />
+              <p>Nombre:</p>
+              <Nombre nombre = {pokemon.name}/>
+
               {console.log(pokemon)}
 
+              <p>Peso:</p>
               <Peso peso =  {pokemon.weight}/>
 
+              <hr />
+              <p>Tipo:</p>
+              <hr />
               <div className="tipos">
                 {pokemon.types.map(tip => (
                   // <Tipo tipo =  {item.type.name}/>
@@ -177,10 +192,13 @@ class PokeApi extends React.Component {
                 ))}
               </div>
 
+              <hr />
+              <p>Habilidades:</p>
+              <hr />
               <div className="habilidades">
                 {pokemon.moves.map(function(mov, i){
-                  if (i < 3) {
-                    return <Habilidad key = {i} tipo = {mov.move.name}/>
+                  if (i < 6) {
+                    return <Habilidad key = {i} habilidad = {mov.move.name}/>
                   }
                 })}
               </div>
@@ -214,12 +232,46 @@ class Cabecera extends React.Component {
   }
 }
 
+class ImagenPokemon extends React.Component {
+
+  render () {
+    return (
+      <div className="imagenPokemon">
+        <img src={this.props.imagen} alt={this.props.nombre} />
+      </div>
+    )
+  }
+}
+
+class IdPokemon extends React.Component {
+
+  render () {
+    return (
+      <div className="id">
+        <p>#{this.props.id}</p>
+      </div>
+    )
+  }
+}
+
+class Nombre extends React.Component {
+
+  render () {
+    return (
+      <div className="nombre">
+        {this.props.nombre}
+      </div>
+    )
+  }
+}
 
 class Peso extends React.Component {
 
   render () {
     return (
-      <p>{this.props.peso}</p>
+      <div className="peso">
+        {this.props.peso}
+      </div>
     )
   }
 }
@@ -228,16 +280,21 @@ class Tipo extends React.Component {
 
   render () {
     return (
-      <div>{this.props.tipo}</div>
-    )
+      
+      <div className={classnames("tipo", this.props.tipo)}>{this.props.tipo}</div>
+      
+    );
   }
 }
+
 
 class Habilidad extends React.Component {
 
   render () {
+
     return (
-      <p>{this.props.habilidad}</p>
+      <div className="habilidad">{this.props.habilidad}</div>
+      
     )
   }
 }
