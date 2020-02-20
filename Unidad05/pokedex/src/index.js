@@ -26,7 +26,10 @@ ReactDOM.render(
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import './pokedex.css';
+
+import cargando from './imagenes/cargando.gif';
+import pokeball from './imagenes/pokeball.png';
 
 import classnames from 'classnames';
 
@@ -35,7 +38,7 @@ class PokeApi extends React.Component {
     super(props);
     this.state = {
       error: null,
-      estaBuscando: false,
+      cargando: true,
       isLoaded: false,
       pokemons: [],
       pokemon: null,
@@ -54,14 +57,21 @@ class PokeApi extends React.Component {
 
     if (e.length >= 3) {
       this.state.pokemons.forEach(pk => {
-        if (pk.name.includes(e)) {
+        if (pk.name.includes(e.toLowerCase())) {
+          pokemonsFiltrados.push(pk);
+        }
+      });
+
+    } else if (e.length === 0){
+      this.state.pokemons.forEach(pk => {
+        if (pk.name.includes(e.toLowerCase())) {
           pokemonsFiltrados.push(pk);
         }
       });
     }
 
     this.setState({
-      pokemonsFiltrados
+      pokemonsFiltrados,
     })
     
   }
@@ -78,7 +88,7 @@ class PokeApi extends React.Component {
     this.setState({
         pokemon: this.state.pokemons[ - this.state.pokemons.length + (this.state.pokemons.length - 1 + i)],
 
-        estaBuscando: true,
+        // cargando: true,
     });
     
     
@@ -100,7 +110,7 @@ class PokeApi extends React.Component {
     let pokemonImagen = [];
 
     //const URL = "https://pokeapi.co/api/v2/pokemon-form/?limit=980";
-    const URL = "https://pokeapi.co/api/v2/pokemon/?limit=150";
+    const URL = "https://pokeapi.co/api/v2/pokemon/?limit=2000";
     fetch(URL)
       .then(res => res.json())
       .then(
@@ -120,11 +130,13 @@ class PokeApi extends React.Component {
   
               // Almacenamos el contenido de cada pokemon (nombre y url) en pokemons
               pokemons: resp,
+              pokemonsFiltrados: resp,
+              cargando: false
             })
-            
           })
         }
       )
+      
 
       /*fetch(pokemonAtributo)
       .then(res => res.json())
@@ -135,32 +147,27 @@ class PokeApi extends React.Component {
         })*/
 
         
-        
   }
 
   render() {
-
-    
-    const { error, isLoaded, pokemonsFiltrados, estaBuscando } = this.state;
+    const { error, pokemonsFiltrados, cargando } = this.state;
     if (error) {
       return <div>Error: {error.message}</div>;
-    } else if (!isLoaded) {
-      return <div>Cargando...</div>;
-    } else if (!estaBuscando) {
-      return (
-        <div>
-        <Cabecera/>
-        <Menu onChange={this.datosInput} />
+    } else if (cargando) {
+       return (
+         <div className="principal">
+         <Cabecera/>
+         <Menu onChange={this.datosInput} />
 
-        <div className="cargando">Cargando Pokemons...</div>
+         <Carga/>
         
-        {this.state.estaBuscando = true}
-        <Pie/>
-      </div>
-      );
-    } else {
+         
+         <Pie/>
+       </div>
+       );
+     } else {
       return (
-        <div>
+        <div className="principal">
         <Cabecera/>
         <Menu onChange={this.datosInput} />
         <div id='pokemons'>
@@ -196,7 +203,7 @@ class PokeApi extends React.Component {
               <p>Habilidades:</p>
               <hr />
               <div className="habilidades">
-                {pokemon.moves.map(function(mov, i){
+                {pokemon.moves.map(function(mov, i) {
                   if (i < 6) {
                     return <Habilidad key = {i} habilidad = {mov.move.name}/>
                   }
@@ -235,9 +242,22 @@ class Cabecera extends React.Component {
 class ImagenPokemon extends React.Component {
 
   render () {
+
     return (
       <div className="imagenPokemon">
-        <img src={this.props.imagen} alt={this.props.nombre} />
+        <img src={this.props.imagen || pokeball} alt={this.props.nombre} />
+      </div>
+    )
+  }
+}
+
+class Carga extends React.Component {
+
+  render () {
+
+    return (
+      <div className="cargando">
+        <img src={cargando} alt="" />
       </div>
     )
   }
@@ -300,9 +320,6 @@ class Habilidad extends React.Component {
 }
 
 class Menu extends React.Component {
-  constructor(props) {
-    super(props);
-  }
 
   handleChange = (e) => {
     //console.log(e.target.value);
