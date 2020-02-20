@@ -1,3 +1,29 @@
+/*import React from 'react';
+import ReactDOM from 'react-dom';
+
+import './index.css';
+
+import Cabecera from './Cabecera.js';
+import PokeApi from './PokeApi.js';
+import Pie from './Pie.js';
+
+
+class App extends React.Component {
+  render() {
+     return (
+      <div>
+        <PokeApi/> 
+        <Pie/>
+      </div>
+     );
+  }
+}
+// ========================================
+
+ReactDOM.render(
+  <App />, document.getElementById('root')
+);*/
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
@@ -7,6 +33,7 @@ class PokeApi extends React.Component {
     super(props);
     this.state = {
       error: null,
+      estaBuscando: false,
       isLoaded: false,
       pokemons: [],
       pokemon: null,
@@ -48,10 +75,12 @@ class PokeApi extends React.Component {
   handleClick = (i) => {
     this.setState({
         pokemon: this.state.pokemons[ - this.state.pokemons.length + (this.state.pokemons.length - 1 + i)],
+
+        estaBuscando: true,
     });
     
     
-    setTimeout(() => {
+   /*setTimeout(() => {
       console.log('this is:', this.state.pokemon );
 
       this.setState({
@@ -61,7 +90,7 @@ class PokeApi extends React.Component {
       console.log(this.state.habilidades[2]);
       
 
-    }, 1000); 
+    }, 1000); */
   }
 
   componentDidMount() {
@@ -110,11 +139,23 @@ class PokeApi extends React.Component {
   render() {
 
     
-    const { error, isLoaded, pokemonsFiltrados, habilidades } = this.state;
+    const { error, isLoaded, pokemonsFiltrados, estaBuscando, habilidades } = this.state;
     if (error) {
       return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
       return <div>Cargando...</div>;
+    } else if (!estaBuscando) {
+      return (
+        <div>
+        <Cabecera/>
+        <Menu onChange={this.datosInput} />
+
+        <div>Cargando Pokemons...</div>
+        
+        {this.state.estaBuscando = true}
+        <Pie/>
+      </div>
+      );
     } else {
       return (
         <div>
@@ -125,8 +166,24 @@ class PokeApi extends React.Component {
             <div data-id={pokemon.id} id={pokemon.name} className='pokemon' onClick={(i) => this.handleClick(pokemon.id)} key={pokemon.name}>
               <img src={pokemon.sprites.front_default} alt={pokemon.name} />
               <p>{pokemon.name}</p>
+              {console.log(pokemon)}
 
-              
+              <Peso peso =  {pokemon.weight}/>
+
+              <div className="tipos">
+                {pokemon.types.map(tip => (
+                  // <Tipo tipo =  {item.type.name}/>
+                  <Tipo key={tip.type.name} tipo = {tip.type.name}/>
+                ))}
+              </div>
+
+              <div className="habilidades">
+                {pokemon.moves.map(function(mov, i){
+                  if (i < 3) {
+                    return <Habilidad key = {i} tipo = {mov.move.name}/>
+                  }
+                })}
+              </div>
             </div>
           ))}
 
@@ -154,6 +211,34 @@ class Cabecera extends React.Component {
         <img src='https://images.wikidexcdn.net/mwuploads/esssbwiki/thumb/7/77/latest/20111028181540/TituloUniversoPok%C3%A9mon.png/550px-TituloUniversoPok%C3%A9mon.png' alt='' />
       </header>
      );
+  }
+}
+
+
+class Peso extends React.Component {
+
+  render () {
+    return (
+      <p>{this.props.peso}</p>
+    )
+  }
+}
+
+class Tipo extends React.Component {
+
+  render () {
+    return (
+      <div>{this.props.tipo}</div>
+    )
+  }
+}
+
+class Habilidad extends React.Component {
+
+  render () {
+    return (
+      <p>{this.props.habilidad}</p>
+    )
   }
 }
 

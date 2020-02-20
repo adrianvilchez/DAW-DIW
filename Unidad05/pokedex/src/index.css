@@ -1,3 +1,5 @@
+
+
 html, body, #root {
   width: 100%;
   margin: 0;
@@ -44,6 +46,105 @@ nav {
   width: 100%;
   background: rgba(89,89,89,1);
 }
+
+.tipos {
+  
+}
+
+.bug {
+  background-color: var(--type-bug-color);
+}
+
+.dark {
+  background-color: var(--type-dark-color);
+}
+
+.dragon {
+  background-color: var(--type-dragon-color);
+}
+
+.electric {
+  background-color: var(--type-electric-color);
+}
+
+.fairy {
+  background-color: var(--type-fairy-color);
+}
+
+.fighting {
+  background-color: var(--type-fighting-color);
+}
+
+.fire {
+  background-color: var(--type-fire-color);
+}
+
+.flying {
+  background-color: var(--type-flying-color);
+}
+
+.ghost {
+  background-color: var(--type-ghost-color);
+}
+
+.grass {
+  background-color: var(--type-grass-color);
+}
+
+.ground {
+  background-color: var(--type-ground-color);
+}
+
+.ice {
+  background-color: var(--type-ice-color);
+}
+
+.normal {
+  background-color: var(--type-normal-color);
+}
+
+.poison {
+  background-color: var(--type-poison-color);
+}
+
+.psychic {
+  background-color: var(--type-psychic-color);
+}
+
+.rock {
+  background-color: var(--type-rock-color);
+}
+
+.steel {
+  background-color: var(--type-steel-color);
+}
+
+.water {
+  background-color: var(--type-water-color);
+}
+
+root {
+  --type-dark-color: rgb(4, 7, 6);
+  --type-bug-color: rgb(59, 153, 80);
+  --type-dragon-color: rgb(84, 158, 169);
+  --type-electric-color: rgb(251, 251, 114);
+  --type-fairy-color: rgb(234, 19, 105);
+  --type-fighting-color: rgb(239, 97, 56);
+  --type-fire-color: rgb(253, 76, 90);
+  --type-flying-color: rgb(147, 178, 199);
+  --type-ghost-color: rgb(144, 103, 144);
+  --type-grass-color: rgb(39, 203, 79);
+  --type-ground-color: rgb(110, 73, 31);
+  --type-ice-color: rgb(216, 239, 251);
+  --type-normal-color: rgb(202, 152, 167);
+  --type-poison-color: rgb(155, 105, 217);
+  --type-psychic-color: rgb(248, 28, 145);
+  --type-rock-color: rgb(139, 62, 33);
+  --type-steel-color: rgb(66, 189, 148);
+  --type-water-color: rgb(134, 168, 252);
+}
+
+.fire, .water, .poison, 
 
 .pokemon {
 
